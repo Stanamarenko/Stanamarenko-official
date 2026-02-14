@@ -27,6 +27,7 @@
         /* Navigatie Sidebar */
         .sidebar-container { position: fixed; left: 30px; top: 50%; transform: translateY(-50%); width: 180px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 35px; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 100; transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
         .sidebar-container.closed { left: -240px; }
+        
         .toggle-container { position: fixed; left: 30px; top: 30px; z-index: 101; }
         .menu-circle { width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s; }
         .menu-circle:hover { transform: scale(1.1); }
@@ -34,6 +35,13 @@
 
         .nav-btn { width: 100%; margin: 8px 0; padding: 12px; background: linear-gradient(to bottom, #a8e063 0%, #56ab2f 48%, #2e7d32 50%, #43a047 100%); border: 1.5px solid white; border-radius: 20px; color: white; text-align: center; font-weight: 700; font-size: 0.85rem; cursor: pointer; box-shadow: 0 5px 10px rgba(0,0,0,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.4); transition: all 0.3s ease; }
         .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(168, 224, 99, 0.8); filter: brightness(1.1); }
+
+        /* Instagram Banner */
+        .insta-banner {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important;
+            color: white !important; padding: 15px !important; border-radius: 20px !important; margin: 20px auto 30px auto !important; font-weight: bold !important; font-size: 0.9rem !important; text-decoration: none !important; display: block !important; width: fit-content !important; max-width: 90%; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4) !important; transition: transform 0.3s ease !important; border: 1px solid rgba(255,255,255,0.3) !important;
+        }
+        .insta-banner:hover { transform: scale(1.03); }
 
         /* Main Panel */
         .main-panel {
@@ -48,78 +56,47 @@
             transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .main-panel.expanded { max-width: 90%; height: 92vh; max-height: 92vh; border-radius: 35px; }
-        .main-panel::-webkit-scrollbar { display: none; }
 
         #content-wrapper { will-change: transform, opacity; transition: opacity 0.4s ease-out, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
         .content-out { opacity: 0; transform: translateY(30px) scale(0.98); }
         .content-in { opacity: 1; transform: translateY(0) scale(1); }
-        .content-initial { opacity: 0; transform: translateY(-30px) scale(1.02); }
 
-        /* Projecten */
+        /* Project Cards */
         .project-box { position: relative; background: rgba(255, 255, 255, 0.55); border-radius: 25px; margin-bottom: 25px; padding: 30px; color: #002200; text-align: left; border: 1px solid white; opacity: 0; transform: translateY(40px) scale(0.9); transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1); }
         .project-box.reveal { opacity: 1; transform: translateY(0) scale(1); }
-
         .image-collage { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; max-width: 400px; }
-        .collage-item { position: relative; aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; border: 2px solid white; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .collage-item:hover { transform: scale(1.05); z-index: 2; }
+        .collage-item { position: relative; aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; border: 2px solid white; cursor: pointer; transition: transform 0.3s; }
         .collage-item img { width: 100%; height: 100%; object-fit: cover; }
-        .more-overlay { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: bold; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .more-overlay { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: bold; }
 
-        /* Instagram Banner */
-        .insta-banner {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            color: white; padding: 12px; border-radius: 15px; margin-bottom: 30px; font-weight: bold; font-size: 0.9rem;
-            text-decoration: none; display: block; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
-            transition: transform 0.3s;
-        }
-        .insta-banner:hover { transform: scale(1.02); }
-
-        /* Viewer & Glass Arrows (Desktop Default) */
+        /* Viewer & Arrows */
         #viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
         #viewer-img { max-width: 95%; max-height: 85%; object-fit: contain; transition: opacity 0.3s ease; }
-        
-        .nav-area { position: absolute; top: 0; height: 100%; width: 35%; display: flex; align-items: center; z-index: 2001; cursor: pointer; }
+        .nav-area { position: absolute; top: 0; height: 100%; width: 40%; display: flex; align-items: center; z-index: 2001; cursor: pointer; }
         .left-area { left: 0; justify-content: flex-start; padding-left: 25px; }
         .right-area { right: 0; justify-content: flex-end; padding-right: 25px; }
-
+        
         .nav-arrow { 
-            width: 65px; height: 65px; 
-            background: rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%; 
-            display: flex; justify-content: center; align-items: center; 
-            color: white; font-size: 32px; font-weight: 300;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            user-select: none;
+            width: 60px; height: 60px; 
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.25); 
+            border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+            color: white; font-size: 30px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
+        .nav-area:hover .nav-arrow { background: rgba(255, 255, 255, 0.2); transform: scale(1.1); border-color: rgba(255,255,255,0.5); }
+        .nav-area:active .nav-arrow { transform: scale(0.85); background: rgba(255, 255, 255, 0.4); }
 
-        .nav-area:hover .nav-arrow { 
-            background: rgba(255, 255, 255, 0.25); 
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: scale(1.15);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .nav-area:active .nav-arrow {
-            transform: scale(0.9);
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        /* RESPONSIVE: Kleinere pijltjes op mobiel */
+        /* EXTRA KLEINE PIJLTJES OP MOBIEL */
         @media (max-width: 768px) {
-            .nav-arrow {
-                width: 45px; height: 45px;
-                font-size: 24px;
+            .nav-arrow { 
+                width: 35px; /* De gevraagde kleinere minimumgrootte */
+                height: 35px; 
+                font-size: 20px; 
+                background: rgba(255, 255, 255, 0.05); /* Subtieler op mobiel */
             }
-            .left-area { padding-left: 15px; }
-            .right-area { padding-right: 15px; }
-            .nav-area { width: 45%; } /* Iets groter klikoppervlak op mobiel */
-            
-            .main-panel { padding: 25px; width: 95%; border-radius: 40px; }
-            .sidebar-container { left: 20px; width: 160px; }
-            .sidebar-container.closed { left: -200px; }
+            .left-area { padding-left: 10px; }
+            .right-area { padding-right: 10px; }
+            .nav-area { width: 48%; } /* Iets groter onzichtbaar klikgebied voor gemak */
         }
 
         h1 { font-size: clamp(2rem, 8vw, 3.5rem); color: white; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
@@ -128,8 +105,6 @@
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LX6VVPL"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="sun-ray"></div>
     <div id="bubble-container"></div>
 
@@ -138,26 +113,14 @@
             <div id="viewer-counter" style="color: white; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 5px 18px; border-radius: 20px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.2);">1 / 1</div>
             <div onclick="closeViewer()" style="color: white; font-size: 24px; cursor: pointer; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.2);">✕</div>
         </div>
-        
-        <div class="nav-area left-area" onclick="prevImg()">
-            <div class="nav-arrow">‹</div>
-        </div>
-        
-        <div class="nav-area right-area" onclick="nextImg()">
-            <div class="nav-arrow">›</div>
-        </div>
-
+        <div class="nav-area left-area" onclick="prevImg()"><div class="nav-arrow">‹</div></div>
+        <div class="nav-area right-area" onclick="nextImg()"><div class="nav-arrow">›</div></div>
         <img id="viewer-img" src="">
     </div>
 
-    <div class="toggle-container">
-        <div class="menu-circle" onclick="toggleSidebar()">
-            <div class="menu-line"></div>
-            <div class="menu-line"></div>
-        </div>
-    </div>
+    <div class="toggle-container"><div class="menu-circle" onclick="toggleSidebar()"><div class="menu-line"></div><div class="menu-line"></div></div></div>
 
-    <div class="sidebar-container" id="sidebar">
+    <div class="sidebar-container closed" id="sidebar">
         <div style="height: 20px;"></div>
         <div class="nav-btn" onclick="goPage('home')">Home</div>
         <div class="nav-btn" onclick="goPage('bio')">Biografie</div>
@@ -183,7 +146,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // AUDIO
         const clickSound = new Audio('https://www.soundjay.com/buttons/button-20.mp3');
         const swooshSound = new Audio('https://www.soundjay.com/button/button-09.mp3');
         clickSound.volume = 0.3; swooshSound.volume = 0.2;
@@ -199,19 +161,8 @@
        
         function updateViewer(animate = true) {
             const img = document.getElementById('viewer-img');
-            if(animate) {
-                playSwoosh();
-                img.style.opacity = '0';
-                setTimeout(() => {
-                    img.src = currentImages[currentIndex];
-                    img.style.opacity = '1';
-                    document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`;
-                }, 200);
-            } else {
-                img.src = currentImages[currentIndex];
-                img.style.opacity = '1';
-                document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`;
-            }
+            if(animate) { playSwoosh(); img.style.opacity = '0'; setTimeout(() => { img.src = currentImages[currentIndex]; img.style.opacity = '1'; document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`; }, 200); }
+            else { img.src = currentImages[currentIndex]; img.style.opacity = '1'; document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`; }
         }
 
         window.closeViewer = () => { playClick(); document.getElementById('viewer').style.display = 'none'; };
@@ -268,11 +219,7 @@
                     document.getElementById('title').innerText = "Projecten";
                     document.getElementById('desc').innerHTML = "Mijn portfolio.";
                    
-                    list.innerHTML = `
-                        <a href="https://www.instagram.com/stanamarenko" target="_blank" class="insta-banner">
-                            🎬 Bekijk video's van alle projecten op mijn Instagram
-                        </a>
-                    `;
+                    list.innerHTML = `<a href="https://www.instagram.com/stanamarenko" target="_blank" class="insta-banner">🎬 Bekijk video's van alle projecten op mijn Instagram</a>`;
 
                     const q = query(collection(db, "projecten"), orderBy("datum", "desc"));
                     const snap = await getDocs(q);
@@ -292,8 +239,7 @@
                     });
                     setTimeout(reveal, 50);
                 }
-                wrapper.className = 'content-initial';
-                requestAnimationFrame(() => { setTimeout(() => { wrapper.className = 'content-in'; }, 50); });
+                wrapper.className = 'content-in';
             }, 450);
         }
     </script>
