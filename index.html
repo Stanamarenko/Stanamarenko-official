@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5LX6VVPL');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stanamarenko</title>
+    <style>
+        /* Basis & Achtergrond */
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            background: #222 url('1.1.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Sfeereffecten */
+        .sun-ray { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(255,255,200,0.3) 0%, rgba(255,255,255,0) 70%); pointer-events: none; z-index: 1; }
+        .bubble { position: absolute; bottom: -50px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 50%; pointer-events: none; z-index: 2; animation: rise 25s infinite linear; }
+        @keyframes rise { 0% { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-110vh) scale(1.1); opacity: 0; } }
+
+        /* Navigatie */
+        .sidebar-container { position: fixed; left: 30px; top: 50%; transform: translateY(-50%); width: 180px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 35px; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 100; transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .sidebar-container.closed { left: -240px; }
+        .toggle-container { position: fixed; left: 30px; top: 30px; z-index: 101; }
+        .menu-circle { width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s; }
+        .menu-circle:hover { transform: scale(1.1); }
+        .menu-line { width: 25px; height: 4px; background: #2e7d32; margin: 3px; border-radius: 2px; box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3); }
+
+        .nav-btn { width: 100%; margin: 8px 0; padding: 12px; background: linear-gradient(to bottom, #a8e063 0%, #56ab2f 48%, #2e7d32 50%, #43a047 100%); border: 1.5px solid white; border-radius: 20px; color: white; text-align: center; font-weight: 700; font-size: 0.85rem; cursor: pointer; box-shadow: 0 5px 10px rgba(0,0,0,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.4); transition: all 0.3s ease; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(168, 224, 99, 0.8); filter: brightness(1.1); }
+
+        /* Main Panel & Smooth Transitions */
+        .main-panel {
+            position: relative;
+            width: 90%; max-width: 750px; height: auto; max-height: 80vh;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 60px; border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 40px; text-align: center; z-index: 10;
+            overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .main-panel.expanded { max-width: 90%; height: 92vh; max-height: 92vh; border-radius: 35px; }
+        .main-panel::-webkit-scrollbar { display: none; }
+
+        #content-wrapper { will-change: transform, opacity; transition: opacity 0.4s ease-out, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+        .content-out { opacity: 0; transform: translateY(30px) scale(0.98); }
+        .content-in { opacity: 1; transform: translateY(0) scale(1); }
+        .content-initial { opacity: 0; transform: translateY(-30px) scale(1.02); }
+
+        /* Project Kaarten */
+        .project-box { position: relative; background: rgba(255, 255, 255, 0.55); border-radius: 25px; margin-bottom: 25px; padding: 30px; color: #002200; text-align: left; border: 1px solid white; opacity: 0; transform: translateY(40px) scale(0.9); transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1); }
+        .project-box.reveal { opacity: 1; transform: translateY(0) scale(1); }
+
+        .image-collage { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; max-width: 400px; }
+        .collage-item { position: relative; aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; border: 2px solid white; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .collage-item:hover { transform: scale(1.05); z-index: 2; }
+        .collage-item img { width: 100%; height: 100%; object-fit: cover; }
+        .more-overlay { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: bold; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+        /* Instagram Promo Banner */
+        .insta-banner {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white; padding: 12px; border-radius: 15px; margin-bottom: 30px; font-weight: bold; font-size: 0.9rem;
+            text-decoration: none; display: block; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+            transition: transform 0.3s;
+        }
+        .insta-banner:hover { transform: scale(1.02); }
+
+        /* Viewer */
+        #viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
+        #viewer-img { max-width: 95%; max-height: 85%; object-fit: contain; transition: opacity 0.3s ease; }
+
+        h1 { font-size: clamp(2rem, 8vw, 3.5rem); color: white; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
+        .description { font-size: 1.1rem; color: #003300; font-weight: 700; margin-bottom: 25px; }
+        footer { position: fixed; bottom: 8px; width: 100%; text-align: center; color: white; font-weight: 700; font-size: 0.7rem; z-index: 5; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LX6VVPL"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="sun-ray"></div>
+    <div id="bubble-container"></div>
+
+    <div id="viewer">
+        <div style="position: absolute; top: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 30px; z-index: 2005;">
+            <div id="viewer-counter" style="color: white; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">1 / 1</div>
+            <div onclick="closeViewer()" style="color: white; font-size: 35px; cursor: pointer;">✕</div>
+        </div>
+        <div style="position:absolute; left:0; width:45%; height:100%; z-index:2001; cursor:w-resize;" onclick="prevImg()"></div>
+        <div style="position:absolute; right:0; width:45%; height:100%; z-index:2001; cursor:e-resize;" onclick="nextImg()"></div>
+        <img id="viewer-img" src="">
+    </div>
+
+    <div class="toggle-container">
+        <div class="menu-circle" onclick="toggleSidebar()">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+    </div>
+
+    <div class="sidebar-container" id="sidebar">
+        <div style="height: 20px;"></div>
+        <div class="nav-btn" onclick="goPage('home')">Home</div>
+        <div class="nav-btn" onclick="goPage('bio')">Biografie</div>
+        <div class="nav-btn" onclick="goPage('project')">Projecten</div>
+        <div class="nav-btn" onclick="goPage('social')">Social media</div>
+    </div>
+
+    <div class="main-panel" id="mainPanel">
+        <div id="content-wrapper" class="content-in">
+            <h1 id="title">Stanamarenko</h1>
+            <p id="desc" class="description">De officiële website.</p>
+            <div id="projectList"></div>
+        </div>
+    </div>
+
+    <footer>STANAMARENKO © 2026</footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyAz4ELbQaheZ1KrjHud9K9_b6vGJoCYZuY", authDomain: "stanamarenko-web.firebaseapp.com", projectId: "stanamarenko-web", storageBucket: "stanamarenko-web.firebasestorage.app", messagingSenderId: "489566650179", appId: "1:489566650179:web:b7d95977f1f44c0508b9f6" };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // AUDIO
+        const clickSound = new Audio('https://www.soundjay.com/buttons/button-20.mp3');
+        const swooshSound = new Audio('https://www.soundjay.com/button/button-09.mp3');
+        clickSound.volume = 0.3; swooshSound.volume = 0.2;
+        function playClick() { clickSound.currentTime = 0; clickSound.play().catch(e=>{}); }
+        function playSwoosh() { swooshSound.currentTime = 0; swooshSound.play().catch(e=>{}); }
+
+        const panel = document.getElementById('mainPanel');
+        const wrapper = document.getElementById('content-wrapper');
+        let currentImages = []; let currentIndex = 0;
+
+        window.toggleSidebar = () => { playClick(); document.getElementById('sidebar').classList.toggle('closed'); };
+        window.openViewer = (imgArray, startIdx) => { playClick(); currentImages = imgArray; currentIndex = startIdx; updateViewer(false); document.getElementById('viewer').style.display = 'flex'; };
+       
+        function updateViewer(animate = true) {
+            const img = document.getElementById('viewer-img');
+            if(animate) {
+                playSwoosh();
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    img.src = currentImages[currentIndex];
+                    img.style.opacity = '1';
+                    document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`;
+                }, 200);
+            } else {
+                img.src = currentImages[currentIndex];
+                img.style.opacity = '1';
+                document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`;
+            }
+        }
+
+        window.closeViewer = () => { playClick(); document.getElementById('viewer').style.display = 'none'; };
+        window.nextImg = () => { currentIndex = (currentIndex + 1) % currentImages.length; updateViewer(true); };
+        window.prevImg = () => { currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length; updateViewer(true); };
+
+        function createBubbles() {
+            const container = document.getElementById('bubble-container');
+            for (let i = 0; i < 12; i++) {
+                const b = document.createElement('div'); b.className = 'bubble';
+                b.style.width = b.style.height = Math.random() * 30 + 10 + 'px';
+                b.style.left = Math.random() * 100 + 'vw'; b.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(b);
+            }
+        }
+        createBubbles();
+
+        function reveal() {
+            const boxes = document.querySelectorAll('.project-box');
+            const panelRect = panel.getBoundingClientRect();
+            boxes.forEach(box => {
+                const rect = box.getBoundingClientRect();
+                const isVisible = (rect.top < panelRect.bottom - 50 && rect.bottom > panelRect.top + 50);
+                if (isVisible) box.classList.add('reveal'); else box.classList.remove('reveal');
+            });
+        }
+        panel.addEventListener('scroll', reveal);
+
+        window.goPage = async function(page) {
+            playClick();
+            document.getElementById('sidebar').classList.add('closed');
+            wrapper.className = 'content-out';
+           
+            setTimeout(async () => {
+                const list = document.getElementById('projectList');
+                list.innerHTML = ""; panel.scrollTop = 0;
+
+                if (page === 'home') {
+                    panel.classList.remove('expanded');
+                    document.getElementById('title').innerText = "Stanamarenko";
+                    document.getElementById('desc').innerText = "De officiële website.";
+                } else if (page === 'bio') {
+                    panel.classList.remove('expanded');
+                    document.getElementById('title').innerText = "Biografie";
+                    const snap = await getDoc(doc(db, "siteData", "biografie"));
+                    document.getElementById('desc').innerText = snap.exists() ? snap.data().tekst : "Laden...";
+                } else if (page === 'social') {
+                    panel.classList.remove('expanded');
+                    document.getElementById('title').innerText = "Social Media";
+                    document.getElementById('desc').innerText = "Volg mij op Instagram.";
+                    list.innerHTML = `<div style="margin-top:20px; display:flex; justify-content:center;"><a href="https://www.instagram.com/stanamarenko" target="_blank" class="nav-btn" style="width:240px; text-decoration:none; display:inline-block;">Instagram</a></div>`;
+                } else if (page === 'project') {
+                    panel.classList.add('expanded');
+                    document.getElementById('title').innerText = "Projecten";
+                    document.getElementById('desc').innerHTML = "Mijn portfolio.";
+                   
+                    // DE INSTAGRAM PROMO BANNER
+                    list.innerHTML = `
+                        <a href="https://www.instagram.com/stanamarenko" target="_blank" class="insta-banner">
+                            🎬 Bekijk video's van alle projecten op mijn Instagram
+                        </a>
+                    `;
+
+                    const q = query(collection(db, "projecten"), orderBy("datum", "desc"));
+                    const snap = await getDocs(q);
+                    snap.forEach(d => {
+                        const data = d.data();
+                        const fotos = data.fotos || [];
+                        const box = document.createElement('div');
+                        box.className = 'project-box';
+                        let collage = '<div class="image-collage">';
+                        fotos.slice(0, 4).forEach((url, i) => {
+                            const isLast = (i === 3 && fotos.length > 4);
+                            collage += `<div class="collage-item" onclick='openViewer(${JSON.stringify(fotos)}, ${i})'><img src="${url}">${isLast ? `<div class="more-overlay">+${fotos.length - 3}</div>` : ''}</div>`;
+                        });
+                        collage += '</div>';
+                        box.innerHTML = `<span style="font-size:0.75rem; color:#2e7d32; font-weight:700;">${data.datumTekst || ''}</span><h3>${data.titel}</h3><p>${data.beschrijving}</p>${collage}`;
+                        list.appendChild(box);
+                    });
+                    setTimeout(reveal, 50);
+                }
+                wrapper.className = 'content-initial';
+                requestAnimationFrame(() => { setTimeout(() => { wrapper.className = 'content-in'; }, 50); });
+            }, 450);
+        }
+    </script>
+</body>
+</html>
