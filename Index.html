@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5LX6VVPL');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stanamarenko</title>
+    <style>
+        /* RESET & BASIS */
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; background: #222 url('1.1.jpg') no-repeat center center fixed; background-size: cover; }
+
+        /* ONDERHOUD */
+        #maintenance-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 20px; backdrop-filter: blur(15px); }
+        #maintenance-overlay h2 { font-size: 2rem; margin-top: 10px; color: #a8e063; }
+
+        /* SFEER */
+        .sun-ray { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(255,255,200,0.3) 0%, rgba(255,255,255,0) 70%); pointer-events: none; z-index: 1; }
+        .bubble { position: absolute; bottom: -50px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 50%; pointer-events: none; z-index: 2; animation: rise 25s infinite linear; }
+        @keyframes rise { 0% { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-110vh) scale(1.1); opacity: 0; } }
+
+        /* TAAL SCHAKELAAR */
+        .lang-switch { position: fixed; top: 20px; right: 20px; z-index: 101; display: flex; gap: 8px; }
+        .lang-btn { padding: 8px 14px; background: rgba(255,255,255,0.15); border: 1.5px solid white; border-radius: 18px; color: white; cursor: pointer; font-weight: 800; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); transition: 0.3s; font-size: 0.75rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .lang-btn.active { background: white; color: #2e7d32; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+
+        /* NAVIGATIE */
+        .sidebar-container { position: fixed; left: 30px; top: 50%; transform: translateY(-50%); width: 180px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 35px; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 100; transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .sidebar-container.closed { left: -280px; }
+        .toggle-container { position: fixed; left: 20px; top: 20px; z-index: 101; }
+        .menu-circle { width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; }
+        .menu-line { width: 25px; height: 4px; background: #2e7d32; margin: 3px; border-radius: 2px; }
+
+        .nav-btn { width: 100%; margin: 8px 0; padding: 12px; background: linear-gradient(to bottom, #a8e063 0%, #56ab2f 48%, #2e7d32 50%, #43a047 100%); border: 1.5px solid white; border-radius: 20px; color: white; text-align: center; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); transition: 0.3s; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(168, 224, 99, 0.8); }
+
+        /* PANEL */
+        .main-panel { position: relative; width: 90%; max-width: 750px; max-height: 80vh; background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(25px) saturate(180%); border-radius: 60px; border: 2px solid rgba(255, 255, 255, 0.4); padding: 40px; text-align: center; z-index: 10; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; box-shadow: 0 30px 60px rgba(0,0,0,0.2); transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+        .main-panel.expanded { max-width: 90%; height: 92vh; max-height: 92vh; border-radius: 35px; }
+
+        #content-wrapper { transition: opacity 0.4s, transform 0.5s; }
+        .content-out { opacity: 0; transform: translateY(30px) scale(0.98); }
+        .content-in { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* PROJECT BOXEN */
+        .project-box { background: rgba(255, 255, 255, 0.55); border-radius: 25px; margin-bottom: 25px; padding: 30px; color: #002200; text-align: left; border: 1px solid white; opacity: 0; transform: translateY(40px) scale(0.9); transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .project-box.reveal { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* COLLAGE */
+        .image-collage { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; max-width: 400px; }
+        .collage-item { position: relative; aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; border: 2px solid white; cursor: pointer; }
+        .collage-item img { width: 100%; height: 100%; object-fit: cover; }
+        .more-overlay { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: bold; }
+
+        /* VIEWER */
+        #viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
+        #viewer-img { max-width: 95%; max-height: 85%; object-fit: contain; }
+        .nav-area { position: absolute; top: 0; height: 100%; width: 40%; z-index: 2001; cursor: pointer; }
+
+        /* Swipe Instructie Overlay */
+        #swipe-instruction { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 2010; pointer-events: none; transition: opacity 0.5s; opacity: 0; }
+        .hand-icon { font-size: 3rem; animation: swipe-move 2s infinite; }
+        @keyframes swipe-move { 0% { transform: translateX(50px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateX(-50px); opacity: 0; } }
+
+        h1 { font-size: clamp(1.8rem, 8vw, 3.5rem); color: white; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
+        .description { font-size: 1.1rem; color: #003300; font-weight: 700; margin-bottom: 25px; }
+        footer { position: fixed; bottom: 8px; width: 100%; text-align: center; color: white; font-weight: 700; font-size: 0.7rem; z-index: 5; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div id="maintenance-overlay">
+        <h1 style="font-size: 3rem;">🛠️</h1>
+        <h2 id="maint-title">Website op Pauze</h2>
+        <p id="maint-desc">Onderhoud of vernieuwingen zijn momenteel bezig,<br>kom later terug!</p>
+    </div>
+
+    <div class="lang-switch">
+        <button id="btn-nl" class="lang-btn active" onclick="setLang('nl')">NL</button>
+        <button id="btn-en" class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+
+    <div class="sun-ray"></div>
+    <div id="bubble-container"></div>
+
+    <div id="viewer">
+        <div style="position: absolute; top: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 30px; z-index: 2005;">
+            <div id="viewer-counter" style="color: white; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px;">1 / 1</div>
+            <div onclick="closeViewer()" style="color: white; font-size: 24px; cursor: pointer;">✕</div>
+        </div>
+        
+        <div id="swipe-instruction">
+            <div class="hand-icon">👈👉</div>
+            <p id="instruction-text">Tik of veeg om te bladeren</p>
+        </div>
+
+        <div class="nav-area" style="left:0;" onclick="prevImg()"></div>
+        <div class="nav-area" style="right:0;" onclick="nextImg()"></div>
+        <img id="viewer-img" src="">
+    </div>
+
+    <div class="toggle-container"><div class="menu-circle" onclick="toggleSidebar()"><div class="menu-line"></div><div class="menu-line"></div></div></div>
+
+    <div class="sidebar-container closed" id="sidebar">
+        <div style="height: 20px;"></div>
+        <div class="nav-btn" id="nav-home" onclick="goPage('home')">Home</div>
+        <div class="nav-btn" id="nav-bio" onclick="goPage('bio')">Biografie</div>
+        <div class="nav-btn" id="nav-project" onclick="goPage('project')">Projecten</div>
+        <div class="nav-btn" id="nav-updates" onclick="goPage('updates')">Updates</div>
+        <div class="nav-btn" id="nav-social" onclick="goPage('social')">Social media</div>
+    </div>
+
+    <div class="main-panel" id="mainPanel">
+        <div id="content-wrapper" class="content-in">
+            <h1 id="title">Stanamarenko</h1>
+            <p id="desc" class="description">De officiële website.</p>
+            <div id="projectList"></div>
+        </div>
+    </div>
+
+    <footer id="footer-text">STANAMARENKO © 2026</footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyAz4ELbQaheZ1KrjHud9K9_b6vGJoCYZuY", authDomain: "stanamarenko-web.firebaseapp.com", projectId: "stanamarenko-web", storageBucket: "stanamarenko-web.firebasestorage.app", messagingSenderId: "489566650179", appId: "1:489566650179:web:b7d95977f1f44c0508b9f6" };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentLang = 'nl';
+        let currentPage = 'home';
+        let currentImages = []; let currentIndex = 0;
+        let touchstartX = 0; let touchendX = 0;
+        let instructionShown = false;
+
+        const translations = {
+            nl: {
+                homeTitle: "Stanamarenko", homeDesc: "De officiële website.",
+                bioTitle: "Biografie", socialTitle: "Social Media", socialDesc: "Volg mij online.",
+                projectsTitle: "Projecten", updatesTitle: "Logboek / Updates", subText: "Nieuwste bovenaan.",
+                navBio: "Biografie", navProj: "Projecten", navUpd: "Updates", navSoc: "Social media",
+                maintTitle: "Website op Pauze", maintDesc: "Onderhoud of vernieuwingen zijn momenteel bezig,<br>kom later terug!",
+                posted: "Gepost", update: "Update", instruct: "Tik of veeg om te bladeren"
+            },
+            en: {
+                homeTitle: "Stanamarenko", homeDesc: "The official website.",
+                bioTitle: "Biography", socialTitle: "Social Media", socialDesc: "Follow me online.",
+                projectsTitle: "Projects", updatesTitle: "Logbook / Updates", subText: "Latest on top.",
+                navBio: "Biography", navProj: "Projects", navUpd: "Updates", navSoc: "Social media",
+                maintTitle: "Website Paused", maintDesc: "Maintenance or updates are currently in progress,<br>please check back later!",
+                posted: "Posted", update: "Update", instruct: "Tap or swipe to browse"
+            }
+        };
+
+        // Taalkeuze
+        window.setLang = (lang) => {
+            if(lang === currentLang) return;
+            currentLang = lang;
+            document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            const t = translations[lang];
+            document.getElementById('nav-bio').innerText = t.navBio;
+            document.getElementById('nav-project').innerText = t.navProj;
+            document.getElementById('nav-updates').innerText = t.navUpd;
+            document.getElementById('nav-social').innerText = t.navSoc;
+            document.getElementById('maint-title').innerText = t.maintTitle;
+            document.getElementById('maint-desc').innerHTML = t.maintDesc;
+            goPage(currentPage);
+        };
+
+        // Onderhoud
+        onSnapshot(doc(db, "siteData", "status"), (doc) => {
+            document.getElementById('maintenance-overlay').style.display = (doc.exists() && doc.data().onderhoud) ? 'flex' : 'none';
+        });
+
+        // Viewer & Swipe logica
+        const panel = document.getElementById('mainPanel');
+        const wrapper = document.getElementById('content-wrapper');
+        const viewer = document.getElementById('viewer');
+
+        window.openViewer = (imgArray, startIdx) => { 
+            currentImages = imgArray; currentIndex = startIdx; updateViewer(); 
+            viewer.style.display = 'flex'; 
+            if (!localStorage.getItem('viewer_hint_given')) {
+                document.getElementById('instruction-text').innerText = translations[currentLang].instruct;
+                document.getElementById('swipe-instruction').style.opacity = "1";
+                instructionShown = true;
+                setTimeout(hideInstruction, 3500);
+            }
+        };
+        window.closeViewer = () => viewer.style.display = 'none';
+        window.nextImg = () => { hideInstruction(); currentIndex = (currentIndex + 1) % currentImages.length; updateViewer(); };
+        window.prevImg = () => { hideInstruction(); currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length; updateViewer(); };
+        function updateViewer() { document.getElementById('viewer-img').src = currentImages[currentIndex]; document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`; }
+        function hideInstruction() { if (instructionShown) { document.getElementById('swipe-instruction').style.opacity = "0"; localStorage.setItem('viewer_hint_given', 'true'); instructionShown = false; } }
+
+        viewer.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
+        viewer.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; if (touchendX < touchstartX - 50) nextImg(); if (touchendX > touchstartX + 50) prevImg(); }, {passive: true});
+
+        // UI Functies
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('closed');
+        function reveal() {
+            const boxes = document.querySelectorAll('.project-box');
+            const panelRect = panel.getBoundingClientRect();
+            boxes.forEach(box => {
+                const rect = box.getBoundingClientRect();
+                if (rect.top < panelRect.bottom - 50 && rect.bottom > panelRect.top + 50) box.classList.add('reveal');
+                else box.classList.remove('reveal');
+            });
+        }
+        panel.addEventListener('scroll', reveal);
+
+        function createBubbles() {
+            const container = document.getElementById('bubble-container');
+            for (let i = 0; i < 15; i++) {
+                const b = document.createElement('div'); b.className = 'bubble';
+                b.style.width = b.style.height = Math.random() * 30 + 10 + 'px';
+                b.style.left = Math.random() * 100 + 'vw'; b.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(b);
+            }
+        }
+        createBubbles();
+
+        window.goPage = async function(page) {
+            currentPage = page;
+            const t = translations[currentLang];
+            document.getElementById('sidebar').classList.add('closed');
+            wrapper.className = 'content-out';
+            
+            setTimeout(async () => {
+                const list = document.getElementById('projectList');
+                list.innerHTML = ""; panel.scrollTop = 0;
+                panel.classList.toggle('expanded', page === 'project' || page === 'updates');
+
+                if (page === 'home') {
+                    document.getElementById('title').innerText = t.homeTitle;
+                    document.getElementById('desc').innerText = t.homeDesc;
+                } else if (page === 'bio') {
+                    document.getElementById('title').innerText = t.bioTitle;
+                    const snap = await getDoc(doc(db, "siteData", "biografie"));
+                    if(snap.exists()) document.getElementById('desc').innerText = currentLang === 'nl' ? snap.data().tekst : (snap.data().tekstEn || snap.data().tekst);
+                } else if (page === 'social') {
+                    document.getElementById('title').innerText = t.socialTitle;
+                    document.getElementById('desc').innerText = t.socialDesc;
+                    list.innerHTML = `<a href="https://www.instagram.com/stanamarenko" target="_blank" class="nav-btn" style="width:240px; text-decoration:none; display:block; margin: 20px auto;">Instagram</a>`;
+                } else if (page === 'project' || page === 'updates') {
+                    const colName = page === 'project' ? 'projecten' : 'updates';
+                    document.getElementById('title').innerText = page === 'project' ? t.projectsTitle : t.updatesTitle;
+                    document.getElementById('desc').innerText = t.subText;
+                    const q = query(collection(db, colName), orderBy("datum", "desc"));
+                    const snap = await getDocs(q);
+                    snap.forEach(d => {
+                        const data = d.data();
+                        const fotos = data.fotos || [];
+                        const box = document.createElement('div');
+                        box.className = 'project-box';
+                        const displayTitel = currentLang === 'nl' ? data.titel : (data.titelEn || data.titel);
+                        const displayDesc = currentLang === 'nl' ? data.beschrijving : (data.beschrijvingEn || data.beschrijving);
+                        let dateInfo = `<div style="margin-bottom:10px; font-size:0.75rem; font-weight:700;"><span style="color:#2e7d32;">${t.posted}: ${data.datumTekst}</span>${data.reUpdateTekst ? `<span style="color:#d32f2f; margin-left:12px;">• ${t.update}: ${data.reUpdateTekst}</span>` : ''}</div>`;
+                        let collage = '<div class="image-collage">';
+                        fotos.slice(0, 4).forEach((url, i) => {
+                            const isLast = (i === 3 && fotos.length > 4);
+                            collage += `<div class="collage-item" onclick='openViewer(${JSON.stringify(fotos)}, ${i})'><img src="${url}">${isLast ? `<div class="more-overlay">+${fotos.length - 3}</div>` : ''}</div>`;
+                        });
+                        collage += '</div>';
+                        box.innerHTML = `${dateInfo}<h3>${displayTitel}</h3><p>${displayDesc}</p>${fotos.length > 0 ? collage : ''}`;
+                        list.appendChild(box);
+                    });
+                    setTimeout(reveal, 50);
+                }
+                wrapper.className = 'content-in';
+            }, 450);
+        }
+    </script>
+</body>
+</html>
