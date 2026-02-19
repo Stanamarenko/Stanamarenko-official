@@ -13,6 +13,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Stanamarenko</title>
     <style>
+        /* Animaties voor de viewer-foto */
+        .slide-in-right {
+            animation: slideInRight 0.3s ease-out;
+        }
+        .slide-in-left {
+            animation: slideInLeft 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
         /* RESET & BASIS */
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; background: #222 url('1.1.jpg') no-repeat center center fixed; background-size: cover; }
@@ -197,8 +214,25 @@
             }
         };
         window.closeViewer = () => viewer.style.display = 'none';
-        window.nextImg = () => { hideInstruction(); currentIndex = (currentIndex + 1) % currentImages.length; updateViewer(); };
-        window.prevImg = () => { hideInstruction(); currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length; updateViewer(); };
+        window.nextImg = () => { 
+        hideInstruction(); 
+        currentIndex = (currentIndex + 1) % currentImages.length; 
+        const img = document.getElementById('viewer-img');
+        img.classList.remove('slide-in-right', 'slide-in-left');
+        void img.offsetWidth; // Forceer een "reflow" om de animatie te resetten
+        img.classList.add('slide-in-right');
+        updateViewer(); 
+        };
+
+        window.prevImg = () => { 
+        hideInstruction(); 
+        currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length; 
+        const img = document.getElementById('viewer-img');
+        img.classList.remove('slide-in-right', 'slide-in-left');
+        void img.offsetWidth; 
+        img.classList.add('slide-in-left');
+        updateViewer(); 
+        };
         function updateViewer() { document.getElementById('viewer-img').src = currentImages[currentIndex]; document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`; }
         function hideInstruction() { if (instructionShown) { document.getElementById('swipe-instruction').style.opacity = "0"; localStorage.setItem('viewer_hint_given', 'true'); instructionShown = false; } }
 
