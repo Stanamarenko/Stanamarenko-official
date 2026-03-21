@@ -10,7 +10,6 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5LX6VVPL');</script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Stanamarenko</title>
     <style>
         /* Animaties voor de viewer-foto */
@@ -32,7 +31,26 @@
         }
         /* RESET & BASIS */
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; background: #222 url('1.1.jpg') no-repeat center center fixed; background-size: cover; }
+        
+        /* Initiële status voor body (zwart) met transitie */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: black; /* Start met zwart */
+            transition: background-color 2s ease-in-out; /* Transitie voor achtergrondkleur */
+        }
+
+        /* Klasse om de achtergrondafbeelding te tonen */
+        body.loaded {
+            background: #222 url('1.1.jpg') no-repeat center center fixed; 
+            background-size: cover;
+        }
 
         /* ONDERHOUD */
         #maintenance-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 20px; backdrop-filter: blur(15px); }
@@ -40,8 +58,8 @@
 
         /* SFEER */
         .sun-ray { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(255,255,200,0.3) 0%, rgba(255,255,255,0) 70%); pointer-events: none; z-index: 1; }
-        .bubble { position: absolute; bottom: -50px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 50%; pointer-events: none; z-index: 2; animation: rise 25s infinite linear; }
-        @keyframes rise { 0% { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-110vh) scale(1.1); opacity: 0; } }
+        
+        /* BUBBELS VERWIJDERD UIT CSS */
 
         /* TAAL SCHAKELAAR */
         .lang-switch { position: fixed; top: 20px; right: 20px; z-index: 101; display: flex; gap: 8px; }
@@ -59,7 +77,38 @@
         .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(168, 224, 99, 0.8); }
 
         /* PANEL */
-        .main-panel { position: relative; width: 90%; max-width: 750px; max-height: 80vh; background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(25px) saturate(180%); border-radius: 60px; border: 2px solid rgba(255, 255, 255, 0.4); padding: 40px; text-align: center; z-index: 10; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; box-shadow: 0 30px 60px rgba(0,0,0,0.2); transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+        /* Initiële status voor main-panel (onzichtbaar en lager) met transitie */
+        .main-panel { 
+            position: relative; 
+            width: 90%; 
+            max-width: 750px; 
+            max-height: 80vh; 
+            background: rgba(255, 255, 255, 0.12); 
+            backdrop-filter: blur(25px) saturate(180%); 
+            border-radius: 60px; 
+            border: 2px solid rgba(255, 255, 255, 0.4); 
+            padding: 40px; 
+            text-align: center; 
+            z-index: 10; 
+            overflow-y: auto; 
+            overflow-x: hidden; 
+            scrollbar-width: none; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2); 
+            
+            /* Initiële status */
+            opacity: 0; 
+            transform: translateY(20px); 
+            
+            /* Transitie voor verschijnen */
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.5s ease-in-out, transform 1.5s ease-in-out; 
+        }
+        
+        /* Klasse om het main-panel te laten verschijnen */
+        .main-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .main-panel.expanded { max-width: 90%; height: 92vh; max-height: 92vh; border-radius: 35px; }
 
         #content-wrapper { transition: opacity 0.4s, transform 0.5s; }
@@ -105,8 +154,7 @@
     </div>
 
     <div class="sun-ray"></div>
-    <div id="bubble-container"></div>
-
+    
     <div id="viewer">
         <div style="position: absolute; top: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 30px; z-index: 2005;">
             <div id="viewer-counter" style="color: white; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px;">1 / 1</div>
@@ -252,16 +300,14 @@
         }
         panel.addEventListener('scroll', reveal);
 
-        function createBubbles() {
-            const container = document.getElementById('bubble-container');
-            for (let i = 0; i < 15; i++) {
-                const b = document.createElement('div'); b.className = 'bubble';
-                b.style.width = b.style.height = Math.random() * 30 + 10 + 'px';
-                b.style.left = Math.random() * 100 + 'vw'; b.style.animationDelay = Math.random() * 10 + 's';
-                container.appendChild(b);
-            }
-        }
-        createBubbles();
+        /* BUBBEL-LOGICA VERWIJDERD UIT JAVASCRIPT */
+
+        // Functie om de intro-animatie te triggeren
+        window.addEventListener('load', () => {
+            // Voeg de klassen toe die de CSS-transities activeren
+            document.body.classList.add('loaded'); // Achtergrond gaat van zwart naar afbeelding
+            document.getElementById('mainPanel').classList.add('visible'); // Vak verschijnt
+        });
 
         window.goPage = async function(page) {
             currentPage = page;
