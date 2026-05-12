@@ -1561,6 +1561,7 @@
             max-height: calc(100vh - 32px);
             display: grid;
             grid-template-columns: minmax(0, 1.18fr) minmax(280px, 360px);
+            min-height: 0;
             gap: 16px;
         }
 
@@ -1586,6 +1587,7 @@
             background: rgba(8, 13, 24, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: var(--shadow);
+            min-height: 0;
             overflow: auto;
             overscroll-behavior: contain;
             -webkit-overflow-scrolling: touch;
@@ -1795,6 +1797,32 @@
                 top: auto;
                 bottom: 112px;
                 transform: none;
+            }
+
+            .project-viewer {
+                place-items: start center;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .project-viewer__frame {
+                max-height: none;
+                min-height: calc(100vh - 24px);
+                min-height: calc(100dvh - 24px);
+                align-content: start;
+                grid-template-rows: auto auto;
+            }
+
+            .project-viewer__panel {
+                min-height: auto;
+                max-height: none;
+                overflow: visible;
+            }
+
+            .project-viewer__media img {
+                max-height: min(62vh, 560px);
+                max-height: min(62dvh, 560px);
             }
         }
 
