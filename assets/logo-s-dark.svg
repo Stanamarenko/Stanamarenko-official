@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Stanamarenko S logo</title>
+  <desc id="desc">Donker rond logo met een centrale letter S.</desc>
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#21486f"/>
+      <stop offset="55%" stop-color="#0e2237"/>
+      <stop offset="100%" stop-color="#07111c"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7edbff"/>
+      <stop offset="100%" stop-color="#87f0c8"/>
+    </linearGradient>
+  </defs>
+  <circle cx="128" cy="128" r="112" fill="url(#bg)"/>
+  <circle cx="128" cy="128" r="112" fill="none" stroke="url(#ring)" stroke-width="10"/>
+  <circle cx="128" cy="128" r="92" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+  <path d="M159 73c-9-10-22-15-38-15-29 0-51 16-51 40 0 21 14 32 43 37l19 4c16 3 23 8 23 18 0 12-12 20-31 20-18 0-31-7-39-20l-23 15c11 18 33 29 62 29 37 0 61-18 61-47 0-22-15-34-46-39l-18-3c-14-3-21-7-21-17 0-11 11-18 28-18 14 0 24 5 32 14z" fill="#f4fbff"/>
+</svg>

@@ -48,6 +48,10 @@
             overflow: hidden;
         }
 
+        body.modal-open {
+            overflow: hidden;
+        }
+
         body.is-maintenance {
             overflow: hidden;
         }
@@ -199,6 +203,7 @@
             align-items: center;
             gap: 12px;
             min-width: 0;
+            overflow: hidden;
         }
 
         .brand__mark {
@@ -217,12 +222,16 @@
 
         .brand__text {
             min-width: 0;
+            overflow: hidden;
         }
 
         .brand__title {
+            max-width: 100%;
             font-size: 0.95rem;
             font-weight: 700;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .brand__meta {
@@ -1485,6 +1494,7 @@
             overflow-y: auto;
             overscroll-behavior: contain;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
         .lightbox__caption strong {
@@ -1579,6 +1589,7 @@
             overflow: auto;
             overscroll-behavior: contain;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
         .project-viewer__close,
@@ -1793,12 +1804,34 @@
             }
 
             .site-header__bar {
+                grid-template-columns: minmax(0, 1fr) auto auto;
                 gap: 10px;
                 padding: 10px 12px;
             }
 
+            .brand {
+                gap: 10px;
+            }
+
+            .brand__title {
+                font-size: 0.88rem;
+            }
+
             .brand__meta {
                 display: none;
+            }
+
+            .header-middle {
+                justify-content: flex-end;
+            }
+
+            .header-instagram {
+                min-height: 38px;
+                padding: 8px 12px;
+                max-width: 88px;
+                font-size: 0.82rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .hero__actions,
@@ -3266,16 +3299,23 @@
             clearInterval(projectTimer);
         }
 
+        function syncModalLock() {
+            const hasOpenModal = lightbox.classList.contains("open") || projectViewer.classList.contains("open");
+            document.body.classList.toggle("modal-open", hasOpenModal);
+        }
+
         function openLightbox(index) {
             lightboxIndex = index;
             updateLightbox();
             lightbox.classList.add("open");
             lightbox.setAttribute("aria-hidden", "false");
+            syncModalLock();
         }
 
         function closeLightbox() {
             lightbox.classList.remove("open");
             lightbox.setAttribute("aria-hidden", "true");
+            syncModalLock();
         }
 
         function updateLightbox() {
@@ -3295,17 +3335,24 @@
         function bindSwipeNavigation(element, onPrev, onNext, isEnabled) {
             let startX = 0;
             let startY = 0;
+            let allowSwipe = false;
 
             element.addEventListener("touchstart", (event) => {
                 if (!isEnabled() || event.touches.length !== 1) return;
+                if (event.target.closest(".lightbox__caption, .project-viewer__panel")) {
+                    allowSwipe = false;
+                    return;
+                }
+                allowSwipe = true;
                 startX = event.touches[0].clientX;
                 startY = event.touches[0].clientY;
             }, { passive: true });
 
             element.addEventListener("touchend", (event) => {
-                if (!isEnabled() || event.changedTouches.length !== 1) return;
+                if (!isEnabled() || event.changedTouches.length !== 1 || !allowSwipe) return;
                 const deltaX = event.changedTouches[0].clientX - startX;
                 const deltaY = event.changedTouches[0].clientY - startY;
+                allowSwipe = false;
                 if (Math.abs(deltaX) < 44 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
                 if (deltaX < 0) onNext();
                 else onPrev();
@@ -3338,11 +3385,13 @@
             updateProjectViewer();
             projectViewer.classList.add("open");
             projectViewer.setAttribute("aria-hidden", "false");
+            syncModalLock();
         }
 
         function closeProjectViewer() {
             projectViewer.classList.remove("open");
             projectViewer.setAttribute("aria-hidden", "true");
+            syncModalLock();
         }
 
         function moveProjectViewer(direction) {
