@@ -1,364 +1,3626 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <title>Stanamarenko | Officiële Website</title>
-    <meta name="description" content="Ontdek de wereld van Stanamarenko. Bekijk mijn nieuwste projecten, creatieve proces en updates in mijn interactieve logboek.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5LX6VVPL');</script>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stanamarenko</title>
+    <meta name="description" content="Stanamarenko website met projecten, beelden, observaties en updates uit een centrale publieke databron.">
     <style>
-        /* Animaties voor de viewer-foto */
-        .slide-in-right {
-            animation: slideInRight 0.3s ease-out;
-        }
-        .slide-in-left {
-            animation: slideInLeft 0.3s ease-out;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes slideInLeft {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        /* RESET & BASIS */
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        /* Initiële status voor body (zwart) met transitie */
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            width: 100%; 
-            overflow: hidden; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            background-color: black; /* Start met zwart */
-            transition: background-color 2s ease-in-out; /* Transitie voor achtergrondkleur */
+        :root {
+            --bg: #07101a;
+            --bg-soft: #0f1b2d;
+            --surface: rgba(10, 18, 31, 0.72);
+            --surface-strong: rgba(8, 13, 24, 0.9);
+            --line: rgba(228, 240, 255, 0.12);
+            --text: #f3f7fd;
+            --muted: #a7b8cc;
+            --green: #97dc5c;
+            --mint: #6ce0d1;
+            --amber: #ffcd62;
+            --rose: #ff8f97;
+            --shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+            --radius-lg: 30px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+            --content-width: min(1180px, calc(100vw - 32px));
         }
 
-        /* Klasse om de achtergrondafbeelding te tonen */
-        body.loaded {
-            background: #222 url('1.1.jpg') no-repeat center center fixed; 
-            background-size: cover;
+        * {
+            box-sizing: border-box;
         }
 
-        /* ONDERHOUD */
-        #maintenance-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 20px; backdrop-filter: blur(15px); }
-        #maintenance-overlay h2 { font-size: 2rem; margin-top: 10px; color: #a8e063; }
-
-        /* SFEER */
-        .sun-ray { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(255,255,200,0.3) 0%, rgba(255,255,255,0) 70%); pointer-events: none; z-index: 1; }
-        
-        /* BUBBELS VERWIJDERD UIT CSS */
-
-        /* TAAL SCHAKELAAR */
-        .lang-switch { position: fixed; top: 20px; right: 20px; z-index: 101; display: flex; gap: 8px; }
-        .lang-btn { padding: 8px 14px; background: rgba(255,255,255,0.15); border: 1.5px solid white; border-radius: 18px; color: white; cursor: pointer; font-weight: 800; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); transition: 0.3s; font-size: 0.75rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
-        .lang-btn.active { background: white; color: #2e7d32; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
-
-        /* NAVIGATIE */
-        .sidebar-container { position: fixed; left: 30px; top: 50%; transform: translateY(-50%); width: 180px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 35px; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 100; transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
-        .sidebar-container.closed { left: -280px; }
-        .toggle-container { position: fixed; left: 20px; top: 20px; z-index: 101; }
-        .menu-circle { width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; }
-        .menu-line { width: 25px; height: 4px; background: #2e7d32; margin: 3px; border-radius: 2px; }
-
-        .nav-btn { width: 100%; margin: 8px 0; padding: 12px; background: linear-gradient(to bottom, #a8e063 0%, #56ab2f 48%, #2e7d32 50%, #43a047 100%); border: 1.5px solid white; border-radius: 20px; color: white; text-align: center; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); transition: 0.3s; }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(168, 224, 99, 0.8); }
-
-        /* PANEL */
-        /* Initiële status voor main-panel (onzichtbaar en lager) met transitie */
-        .main-panel { 
-            position: relative; 
-            width: 90%; 
-            max-width: 750px; 
-            max-height: 80vh; 
-            background: rgba(255, 255, 255, 0.12); 
-            backdrop-filter: blur(25px) saturate(180%); 
-            border-radius: 60px; 
-            border: 2px solid rgba(255, 255, 255, 0.4); 
-            padding: 40px; 
-            text-align: center; 
-            z-index: 10; 
-            overflow-y: auto; 
-            overflow-x: hidden; 
-            scrollbar-width: none; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2); 
-            
-            /* Initiële status */
-            opacity: 0; 
-            transform: translateY(20px); 
-            
-            /* Transitie voor verschijnen */
-            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.5s ease-in-out, transform 1.5s ease-in-out; 
+        html {
+            scroll-behavior: smooth;
         }
-        
-        /* Klasse om het main-panel te laten verschijnen */
-        .main-panel.visible {
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            background:
+                radial-gradient(circle at 80% 12%, rgba(255, 205, 98, 0.08), transparent 20%),
+                radial-gradient(circle at 12% 0%, rgba(108, 224, 209, 0.12), transparent 22%),
+                linear-gradient(180deg, #07101a 0%, #0b1726 48%, #081018 100%);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        body.is-maintenance {
+            overflow: hidden;
+        }
+
+        body.is-maintenance .site-header,
+        body.is-maintenance .mobile-nav,
+        body.is-maintenance main,
+        body.is-maintenance .site-footer {
+            pointer-events: none;
+            user-select: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .starfield {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.8;
+        }
+
+        .page-glow {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                linear-gradient(120deg, rgba(151, 220, 92, 0.05), transparent 35%),
+                linear-gradient(300deg, rgba(108, 224, 209, 0.04), transparent 38%);
+            animation: glowShift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowShift {
+            from { transform: translate3d(-2%, 0, 0) scale(1); }
+            to { transform: translate3d(2%, -1%, 0) scale(1.02); }
+        }
+
+        .progress {
+            position: fixed;
+            inset: 0 auto auto 0;
+            height: 3px;
+            width: 0;
+            background: linear-gradient(90deg, var(--green), var(--mint), var(--amber));
+            z-index: 120;
+            box-shadow: 0 0 22px rgba(151, 220, 92, 0.5);
+        }
+
+        .maintenance-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background:
+                linear-gradient(180deg, rgba(4, 8, 14, 0.9), rgba(4, 8, 14, 0.96)),
+                radial-gradient(circle at 50% 20%, rgba(255, 205, 98, 0.08), transparent 28%);
+            backdrop-filter: blur(16px);
+            z-index: 160;
+        }
+
+        .maintenance-overlay.open {
+            display: flex;
+        }
+
+        .maintenance-card {
+            width: min(560px, calc(100vw - 32px));
+            padding: 32px 28px;
+            border-radius: 30px;
+            background: rgba(8, 13, 24, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .maintenance-card__badge {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(151, 220, 92, 0.12);
+            border: 1px solid rgba(151, 220, 92, 0.28);
+            color: var(--green);
+            font-size: 1.8rem;
+            box-shadow: 0 0 0 10px rgba(151, 220, 92, 0.05);
+        }
+
+        .maintenance-card h2 {
+            margin: 0 0 12px;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+        }
+
+        .maintenance-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+
+        .site-header {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: var(--content-width);
+            z-index: 110;
+        }
+
+        .site-header__bar {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(8, 13, 24, 0.58);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.18);
+        }
+
+        .header-middle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .brand__mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
+            animation: brandFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes brandFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-4px) rotate(2deg); }
+        }
+
+        .brand__text {
+            min-width: 0;
+        }
+
+        .brand__title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .brand__meta {
+            color: var(--muted);
+            font-size: 0.72rem;
+        }
+
+        .desktop-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .header-instagram {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            font-size: 0.92rem;
+            white-space: nowrap;
+            transition: transform 180ms ease, background 180ms ease;
+        }
+
+        .header-instagram:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link {
+            padding: 10px 14px;
+            border-radius: 999px;
+            color: var(--muted);
+            font-size: 0.92rem;
+            transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .header-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-switch {
+            display: inline-flex;
+            gap: 6px;
+            padding: 4px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .lang-switch button,
+        .menu-toggle,
+        .cta,
+        .ghost,
+        .feature-pill,
+        .gallery-card,
+        .lightbox button,
+        .selector button,
+        .social-link,
+        .jump-link {
+            border: 0;
+            cursor: pointer;
+        }
+
+        .lang-switch button {
+            min-width: 44px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--muted);
+            transition: background 180ms ease, color 180ms ease;
+        }
+
+        .lang-switch button.active {
+            background: linear-gradient(135deg, rgba(151, 220, 92, 0.96), rgba(108, 224, 209, 0.96));
+            color: #081018;
+            font-weight: 700;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            place-items: center;
+            font-size: 1.1rem;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            inset: 84px 16px auto 16px;
+            padding: 14px;
+            border-radius: 24px;
+            background: rgba(8, 13, 24, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            transform: translateY(-12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 180ms ease, transform 180ms ease;
+            z-index: 108;
+        }
+
+        .mobile-nav.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .mobile-nav .nav-link {
+            display: block;
+            width: 100%;
+        }
+
+        main {
+            position: relative;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 88vh;
+            padding: 118px 0 56px;
+            overflow: clip;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(120deg, rgba(6, 11, 19, 0.74) 6%, rgba(6, 11, 19, 0.22) 48%, rgba(6, 11, 19, 0.76) 100%),
+                url("./assets/hero-sky.jpg") center/cover no-repeat;
+            transform: scale(1.05);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -10% -8% -10%;
+            height: 220px;
+            background: linear-gradient(180deg, transparent, rgba(7, 16, 26, 0.92));
+        }
+
+        .hero__beam {
+            position: absolute;
+            top: -10%;
+            right: -4%;
+            width: 36vw;
+            min-width: 260px;
+            max-width: 520px;
+            aspect-ratio: 1 / 1.3;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.16), transparent 60%);
+            transform: rotate(12deg);
+            opacity: 0.8;
+            animation: beamSweep 8s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes beamSweep {
+            from { transform: translate3d(0, 0, 0) rotate(9deg) scale(1); opacity: 0.52; }
+            to { transform: translate3d(-6%, 6%, 0) rotate(15deg) scale(1.08); opacity: 0.92; }
+        }
+
+        .hero__shell {
+            position: relative;
+            width: var(--content-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+            gap: 40px;
+            align-items: end;
+            z-index: 1;
+        }
+
+        .hero__copy {
+            max-width: 680px;
+            padding-top: 44px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(8, 13, 24, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(12px);
+            font-size: 0.82rem;
+            color: #d8e6f5;
+            margin-bottom: 18px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 18px rgba(151, 220, 92, 0.7);
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(3.2rem, 10vw, 6.2rem);
+            line-height: 0.92;
+            letter-spacing: 0;
+        }
+
+        .hero__lead-wrap {
+            margin-top: 22px;
+            max-width: 640px;
+        }
+
+        .hero__lead-card {
+            position: relative;
+            padding: 0;
+            transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+        }
+
+        .hero__lead {
+            margin: 0;
+            font-size: clamp(1.02rem, 2vw, 1.28rem);
+            line-height: 1.7;
+            color: #e4eef8;
+            text-wrap: pretty;
+        }
+
+        .hero__lead-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            min-height: 42px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text);
+        }
+
+        .hero__actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .cta,
+        .ghost {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 50px;
+            padding: 12px 20px;
+            border-radius: 999px;
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--green), var(--mint));
+            color: #081018;
+            font-weight: 700;
+            box-shadow: 0 18px 34px rgba(108, 224, 209, 0.22);
+        }
+
+        .ghost {
+            background: rgba(8, 13, 24, 0.46);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(12px);
+        }
+
+        .cta:hover,
+        .ghost:hover,
+        .jump-link:hover,
+        .social-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero__meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 34px;
+        }
+
+        .meta-chip {
+            min-width: 150px;
+            padding: 14px 16px;
+            border-radius: 20px;
+            background: rgba(8, 13, 24, 0.48);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+        }
+
+        .meta-chip strong {
+            display: block;
+            font-size: 1.45rem;
+            margin-bottom: 6px;
+        }
+
+        .meta-chip span {
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .hero__stack {
+            position: relative;
+            min-height: 650px;
+            display: grid;
+            place-items: center;
+        }
+
+        .hero-card {
+            position: absolute;
+            width: min(100%, 430px);
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            background: rgba(8, 13, 24, 0.68);
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .hero-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-card--main {
+            inset: 52px 0 auto auto;
+            aspect-ratio: 0.84 / 1;
+            animation: stackMain 9s ease-in-out infinite;
+        }
+
+        .hero-card--moon {
+            inset: auto auto 44px 12px;
+            width: min(58%, 260px);
+            aspect-ratio: 0.84 / 1;
+            animation: stackSide 7s ease-in-out infinite;
+        }
+
+        .hero-card--project {
+            inset: 16px auto auto 32px;
+            width: min(58%, 300px);
+            aspect-ratio: 1.15 / 0.94;
+            animation: stackWide 8s ease-in-out infinite;
+        }
+
+        .hero-card__overlay {
+            position: absolute;
+            inset: auto 16px 16px 16px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: rgba(8, 13, 24, 0.62);
+            backdrop-filter: blur(12px);
+        }
+
+        .hero-card__overlay strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .hero-card__overlay span {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .floating-logo {
+            display: none;
+        }
+
+        @keyframes stackMain {
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(-3deg); }
+            50% { transform: translate3d(0, -12px, 0) rotate(-1deg); }
+        }
+
+        @keyframes stackSide {
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(4deg); }
+            50% { transform: translate3d(0, 10px, 0) rotate(6deg); }
+        }
+
+        @keyframes stackWide {
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(-4deg); }
+            50% { transform: translate3d(-4px, 8px, 0) rotate(-2deg); }
+        }
+
+        @keyframes logoOrbit {
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            50% { transform: translate3d(-10px, -10px, 0) rotate(10deg); }
+        }
+
+        .hero__scroll {
+            position: absolute;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 0.84rem;
+            z-index: 2;
+        }
+
+        .hero__scroll::before {
+            content: "";
+            width: 34px;
+            height: 54px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background:
+                radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.75), transparent 16%);
+            animation: scrollPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0% { background-position: center 10px; opacity: 0.7; }
+            50% { background-position: center 20px; opacity: 1; }
+            100% { background-position: center 30px; opacity: 0.7; }
+        }
+
+        .summary-band {
+            display: none;
+        }
+
+        .summary-band__inner {
+            width: var(--content-width);
+            margin: 0 auto;
+            padding: 22px;
+            border-radius: 28px;
+            background: rgba(8, 13, 24, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .summary-item {
+            min-height: 116px;
+            padding: 18px;
+            border-radius: 22px;
+            background:
+                linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .summary-item strong {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .summary-item h3 {
+            margin: 0 0 6px;
+            font-size: 1rem;
+        }
+
+        .summary-item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .ticker {
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 18px;
+        }
+
+        .ticker__marquee {
+            --ticker-distance: 50%;
+            display: flex;
+            gap: 0;
+            width: max-content;
+            animation: tickerMove 24s linear infinite;
+        }
+
+        .ticker__track {
+            display: flex;
+            flex: 0 0 auto;
+            gap: 42px;
+            width: max-content;
+            padding: 16px 42px 16px 0;
+            color: #d6e3f1;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .ticker__track span::before {
+            content: "•";
+            color: var(--green);
+            margin-right: 10px;
+        }
+
+        @keyframes tickerMove {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-1 * var(--ticker-distance))); }
+        }
+
+        .section-more {
+            display: flex;
+            justify-content: center;
+            margin-top: 22px;
+        }
+
+        .more-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        section {
+            position: relative;
+            padding: 92px 0;
+        }
+
+        .section-shell {
+            width: var(--content-width);
+            margin: 0 auto;
+        }
+
+        .section-head {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 20px;
+            align-items: end;
+            margin-bottom: 28px;
+        }
+
+        .section-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0;
+            font-size: 0.84rem;
+            margin-bottom: 14px;
+        }
+
+        .section-kicker::before {
+            content: "";
+            width: 36px;
+            height: 1px;
+            background: rgba(151, 220, 92, 0.8);
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 0.98;
+        }
+
+        .section-copy {
+            max-width: 720px;
+            margin: 16px 0 0;
+            font-size: 1.02rem;
+            line-height: 1.75;
+            color: var(--muted);
+        }
+
+        .jump-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .featured {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0)),
+                radial-gradient(circle at 22% 0%, rgba(108, 224, 209, 0.08), transparent 30%);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .selector {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .selector button {
+            width: 100%;
+            padding: 0;
+            text-align: left;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            overflow: hidden;
+            transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+        }
+
+        .selector button.active,
+        .selector button:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108, 224, 209, 0.32);
+            background: rgba(108, 224, 209, 0.08);
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.22);
+        }
+
+        .selector .label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--green);
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .selector h3 {
+            margin: 0 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .selector p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .project-card__thumb {
+            position: relative;
+            aspect-ratio: 1.34 / 0.84;
+            overflow: hidden;
+            background: #040912;
+        }
+
+        .project-card__thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 280ms ease;
+        }
+
+        .selector button:hover .project-card__thumb img {
+            transform: scale(1.04);
+        }
+
+        .project-card__shade {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(4, 9, 18, 0.06), rgba(4, 9, 18, 0.64));
+        }
+
+        .project-card__count {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            background: rgba(8, 13, 24, 0.68);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text);
+            font-size: 0.82rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card__body {
+            display: grid;
+            gap: 12px;
+            padding: 18px 18px 20px;
+        }
+
+        .project-card__meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .project-card__meta span {
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #d7e4f3;
+            font-size: 0.82rem;
+        }
+
+        .project-card__hint {
+            color: var(--green);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .stage {
+            display: none;
+        }
+
+        #observation {
+            display: none;
+        }
+
+        .stage__frame {
+            position: relative;
+            min-height: 100%;
+            border-radius: 28px;
+            overflow: hidden;
+            background: #040912;
+        }
+
+        .stage__backdrop {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 500ms ease, transform 600ms ease;
+        }
+
+        .stage__backdrop.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stage__veil {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(4, 9, 18, 0.16), rgba(4, 9, 18, 0.72)),
+                linear-gradient(90deg, rgba(4, 9, 18, 0.78), rgba(4, 9, 18, 0.12) 44%, rgba(4, 9, 18, 0.74));
+        }
+
+        .stage__content {
+            position: relative;
+            display: grid;
+            align-content: end;
+            min-height: 596px;
+            padding: 28px;
+        }
+
+        .stage__meta {
+            display: grid;
+            gap: 12px;
+            max-width: 520px;
+        }
+
+        .feature-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: fit-content;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #dbe9f8;
+            font-size: 0.82rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .stage__title {
+            margin: 0;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+        }
+
+        .stage__description {
+            margin: 0;
+            color: #deebf8;
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+
+        .stage__facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .stage__facts span {
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(8, 13, 24, 0.5);
+            color: var(--muted);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+            gap: 28px;
+            align-items: center;
+        }
+
+        .compare-stage {
+            position: relative;
+            aspect-ratio: 1.38 / 1;
+            border-radius: 34px;
+            overflow: hidden;
+            background: #050b15;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: var(--shadow);
+        }
+
+        .compare-stage img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .compare-after {
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .compare-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.08);
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .compare-handle {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(8, 13, 24, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow);
+            pointer-events: none;
+        }
+
+        .compare-range {
+            position: absolute;
+            inset: auto 22px 20px 22px;
+            width: calc(100% - 44px);
+            accent-color: var(--green);
+        }
+
+        .compare-copy {
+            display: grid;
+            gap: 18px;
+        }
+
+        .note-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .note {
+            padding: 16px 18px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .note strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .note p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .timeline {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0)),
+                radial-gradient(circle at 88% 12%, rgba(255, 205, 98, 0.08), transparent 26%);
+        }
+
+        .timeline-list {
+            position: relative;
+            display: grid;
+            gap: 22px;
+            margin-top: 32px;
+            padding-left: 24px;
+        }
+
+        .timeline-list::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 4px;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(151, 220, 92, 0.9), rgba(108, 224, 209, 0.18));
+        }
+
+        .timeline-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 120px minmax(0, 1fr);
+            gap: 18px;
+            align-items: start;
+            padding: 0 0 0 14px;
+        }
+
+        .timeline-item--button {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            padding: 0 0 0 14px;
+            cursor: pointer;
+            text-align: left;
+            color: inherit;
+            font: inherit;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: -24px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green), var(--mint));
+            box-shadow: 0 0 0 8px rgba(151, 220, 92, 0.1);
+        }
+
+        .timeline-date {
+            color: var(--green);
+            font-size: 0.9rem;
+            padding-top: 4px;
+        }
+
+        .timeline-card {
+            padding: 22px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 200ms ease, border-color 200ms ease, background 200ms ease;
+        }
+
+        .timeline-item--button:hover .timeline-card,
+        .timeline-item--button:focus-visible .timeline-card {
+            transform: translateY(-2px);
+            border-color: rgba(151, 220, 92, 0.36);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .timeline-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .timeline-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: var(--shadow);
+            transition: transform 240ms ease, box-shadow 240ms ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 74px rgba(0, 0, 0, 0.32);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            touch-action: pan-y;
+            transition: transform 300ms ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .gallery-card__caption {
+            position: absolute;
+            inset: auto 14px 14px 14px;
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(8, 13, 24, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+        }
+
+        .gallery-card__caption strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .gallery-card__caption span {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .gallery-card[data-size="wide"] {
+            grid-column: span 7;
+            aspect-ratio: 1.3 / 0.84;
+        }
+
+        .gallery-card[data-size="tall"] {
+            grid-column: span 5;
+            aspect-ratio: 0.9 / 1.2;
+        }
+
+        .gallery-card[data-size="medium"] {
+            grid-column: span 4;
+            aspect-ratio: 1 / 1.08;
+        }
+
+        .updates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .update-card {
+            min-height: 280px;
+            padding: 22px;
+            border-radius: 28px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            display: grid;
+            align-content: start;
+            gap: 14px;
+            text-align: left;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+        }
+
+        .update-card:hover,
+        .update-card:focus-visible {
+            transform: translateY(-3px);
+            border-color: rgba(151, 220, 92, 0.34);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+        }
+
+        .update-date {
+            color: var(--green);
+            font-size: 0.85rem;
+        }
+
+        .update-card h3 {
+            margin: 0;
+            font-size: 1.28rem;
+            line-height: 1.2;
+        }
+
+        .update-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .update-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .update-tags span {
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #d9e7f6;
+            font-size: 0.83rem;
+        }
+
+        .contact-band {
+            padding-bottom: 100px;
+        }
+
+        .contact-shell {
+            width: var(--content-width);
+            margin: 0 auto;
+            padding: 28px;
+            border-radius: 34px;
+            background:
+                linear-gradient(135deg, rgba(151, 220, 92, 0.12), rgba(108, 224, 209, 0.06)),
+                rgba(8, 13, 24, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .contact-shell h2 {
+            margin: 0 0 12px;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+        }
+
+        .contact-shell p {
+            margin: 0;
+            max-width: 680px;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text);
+        }
+
+        .site-footer {
+            width: var(--content-width);
+            margin: 0 auto;
+            padding: 0 0 44px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.92rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 650ms ease, transform 650ms ease;
+        }
+
+        .reveal.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .main-panel.expanded { max-width: 90%; height: 92vh; max-height: 92vh; border-radius: 35px; }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(3, 7, 13, 0.92);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 180ms ease;
+            z-index: 140;
+        }
 
-        #content-wrapper { transition: opacity 0.4s, transform 0.5s; }
-        .content-out { opacity: 0; transform: translateY(30px) scale(0.98); }
-        .content-in { opacity: 1; transform: translateY(0) scale(1); }
+        .lightbox.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-        /* PROJECT BOXEN */
-        .project-box { background: rgba(255, 255, 255, 0.55); border-radius: 25px; margin-bottom: 25px; padding: 30px; color: #002200; text-align: left; border: 1px solid white; opacity: 0; transform: translateY(40px) scale(0.9); transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
-        .project-box.reveal { opacity: 1; transform: translateY(0) scale(1); }
+        .lightbox__frame {
+            position: relative;
+            width: min(1100px, calc(100vw - 32px));
+            max-height: calc(100vh - 40px);
+            display: grid;
+            grid-template-rows: minmax(0, 1fr) auto;
+            gap: 16px;
+        }
 
-        /* COLLAGE */
-        .image-collage { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; max-width: 400px; }
-        .collage-item { position: relative; aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; border: 2px solid white; cursor: pointer; }
-        .collage-item img { width: 100%; height: 100%; object-fit: cover; }
-        .more-overlay { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: bold; }
+        .lightbox__media {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            background: #050b15;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-        /* VIEWER */
-        #viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
-        #viewer-img { max-width: 95%; max-height: 85%; object-fit: contain; }
-        .nav-area { position: absolute; top: 0; height: 100%; width: 40%; z-index: 2001; cursor: pointer; }
+        .lightbox__media img {
+            width: 100%;
+            max-height: calc(100vh - 180px);
+            object-fit: contain;
+            margin: 0 auto;
+        }
 
-        /* Swipe Instructie Overlay */
-        #swipe-instruction { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 2010; pointer-events: none; transition: opacity 0.5s; opacity: 0; }
-        .hand-icon { font-size: 3rem; animation: swipe-move 2s infinite; }
-        @keyframes swipe-move { 0% { transform: translateX(50px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateX(-50px); opacity: 0; } }
+        .lightbox__caption {
+            padding: 18px 20px;
+            border-radius: 24px;
+            background: rgba(8, 13, 24, 0.86);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            max-height: min(30vh, 260px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+        }
 
-        h1 { font-size: clamp(1.8rem, 8vw, 3.5rem); color: white; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
-        .description { font-size: 1.1rem; color: #003300; font-weight: 700; margin-bottom: 25px; }
-        footer { position: fixed; bottom: 8px; width: 100%; text-align: center; color: white; font-weight: 700; font-size: 0.7rem; z-index: 5; pointer-events: none; }
+        .lightbox__caption strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .lightbox__close,
+        .lightbox__nav {
+            position: absolute;
+            top: 20px;
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(8, 13, 24, 0.7);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            z-index: 2;
+        }
+
+        .lightbox__close {
+            right: 20px;
+            z-index: 4;
+        }
+
+        .lightbox__nav--prev,
+        .lightbox__nav--next {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .lightbox__nav--prev {
+            left: 20px;
+        }
+
+        .lightbox__nav--next {
+            right: 20px;
+        }
+
+        .project-viewer {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(3, 7, 13, 0.94);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 180ms ease;
+            z-index: 150;
+        }
+
+        .project-viewer.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .project-viewer__frame {
+            width: min(1220px, calc(100vw - 32px));
+            max-height: calc(100vh - 32px);
+            display: grid;
+            grid-template-columns: minmax(0, 1.18fr) minmax(280px, 360px);
+            gap: 16px;
+        }
+
+        .project-viewer__media {
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            background: #050b15;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .project-viewer__media img {
+            width: 100%;
+            max-height: calc(100vh - 32px);
+            object-fit: contain;
+            margin: 0 auto;
+            touch-action: pan-y;
+        }
+
+        .project-viewer__panel {
+            padding: 22px;
+            border-radius: 30px;
+            background: rgba(8, 13, 24, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            overflow: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .project-viewer__close,
+        .project-viewer__nav {
+            position: absolute;
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(8, 13, 24, 0.72);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            z-index: 2;
+        }
+
+        .project-viewer__close {
+            top: 20px;
+            right: 20px;
+            z-index: 4;
+        }
+
+        .project-viewer__nav {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .project-viewer__nav--prev {
+            left: 20px;
+        }
+
+        .project-viewer__nav--next {
+            right: 20px;
+        }
+
+        .project-viewer__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--green);
+            font-size: 0.84rem;
+            margin-bottom: 14px;
+        }
+
+        .project-viewer__eyebrow::before {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: rgba(151, 220, 92, 0.82);
+        }
+
+        .project-viewer__title {
+            margin: 0 0 10px;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            line-height: 1.08;
+        }
+
+        .project-viewer__description {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .project-viewer__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 18px 0 20px;
+        }
+
+        .project-viewer__meta span {
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #dbe8f6;
+            font-size: 0.82rem;
+        }
+
+        .project-viewer__thumbs {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .project-viewer__thumb {
+            padding: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            aspect-ratio: 1 / 1;
+        }
+
+        .project-viewer__thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-viewer__thumb.active {
+            border-color: rgba(108, 224, 209, 0.5);
+            box-shadow: 0 0 0 3px rgba(108, 224, 209, 0.12);
+        }
+
+        @media (max-width: 1080px) {
+            .hero__shell,
+            .featured-grid,
+            .compare-grid,
+            .contact-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .selector {
+                grid-template-columns: 1fr;
+            }
+
+            .project-viewer__frame {
+                grid-template-columns: 1fr;
+            }
+
+            .hero__stack {
+                min-height: 520px;
+            }
+
+            .summary-band__inner,
+            .updates-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .gallery-card[data-size="wide"],
+            .gallery-card[data-size="tall"],
+            .gallery-card[data-size="medium"] {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .site-header__bar {
+                grid-template-columns: 1fr auto auto;
+            }
+
+            .desktop-nav {
+                display: none;
+            }
+
+            .header-middle {
+                justify-content: center;
+            }
+
+            .menu-toggle {
+                display: grid;
+            }
+
+            .hero {
+                min-height: auto;
+                padding-top: 104px;
+            }
+
+            .hero__copy {
+                padding-top: 18px;
+            }
+
+            .hero__lead-wrap {
+                max-width: none;
+            }
+
+            .hero__stack {
+                display: none;
+            }
+
+            .summary-band__inner,
+            .updates-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-card[data-size="wide"],
+            .gallery-card[data-size="tall"],
+            .gallery-card[data-size="medium"] {
+                grid-column: span 12;
+            }
+
+            .section-head {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-date {
+                padding-top: 0;
+            }
+
+            .lightbox__nav--prev,
+            .lightbox__nav--next {
+                top: auto;
+                bottom: 104px;
+                transform: none;
+            }
+
+            .project-viewer__nav--prev,
+            .project-viewer__nav--next {
+                top: auto;
+                bottom: 112px;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .site-header {
+                top: 10px;
+            }
+
+            .site-header__bar {
+                gap: 10px;
+                padding: 10px 12px;
+            }
+
+            .brand__meta {
+                display: none;
+            }
+
+            .hero__actions,
+            .hero__meta,
+            .social-links {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero__copy {
+                padding: 18px;
+                border-radius: 28px;
+                background: rgba(8, 13, 24, 0.34);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+            }
+
+            .eyebrow {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .hero__lead-card {
+                padding: 16px 16px 18px;
+                border-radius: 22px;
+                background: rgba(8, 13, 24, 0.48);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                box-shadow: 0 18px 32px rgba(0, 0, 0, 0.14);
+            }
+
+            .hero__lead {
+                font-size: 0.98rem;
+                line-height: 1.68;
+            }
+
+            .hero__lead-wrap.is-collapsible .hero__lead-toggle {
+                display: inline-flex;
+            }
+
+            .hero__lead-wrap.is-collapsed .hero__lead-card {
+                max-height: 9.3em;
+                overflow: hidden;
+            }
+
+            .hero__lead-wrap.is-collapsed .hero__lead-card::after {
+                content: "";
+                position: absolute;
+                inset: auto 0 0 0;
+                height: 56px;
+                background: linear-gradient(180deg, rgba(8, 13, 24, 0), rgba(8, 13, 24, 0.98));
+                pointer-events: none;
+            }
+
+            .cta,
+            .ghost,
+            .social-link {
+                width: 100%;
+            }
+
+            .hero__stack {
+                min-height: 390px;
+            }
+
+            .hero-card--main {
+                inset: 46px 0 auto auto;
+            }
+
+            .hero-card--moon {
+                inset: auto auto 14px 0;
+            }
+
+            .hero-card--project {
+                inset: 4px auto auto 18px;
+            }
+
+            .summary-band__inner,
+            .stage,
+            .contact-shell {
+                padding: 18px;
+            }
+
+            .hero__lead-card {
+                padding: 15px 14px 17px;
+                border-radius: 20px;
+            }
+
+            .compare-stage {
+                aspect-ratio: 1 / 1.08;
+            }
+
+            .lightbox {
+                padding: 12px;
+            }
+
+            .lightbox__frame {
+                max-height: calc(100vh - 24px);
+                gap: 12px;
+            }
+
+            .lightbox__caption {
+                max-height: min(34vh, 280px);
+                padding: 16px 18px;
+            }
+
+            .lightbox__close,
+            .lightbox__nav {
+                width: 42px;
+                height: 42px;
+            }
+
+            .project-viewer__close,
+            .project-viewer__nav {
+                width: 42px;
+                height: 42px;
+            }
+
+            .maintenance-card {
+                padding: 26px 20px;
+                border-radius: 24px;
+            }
+
+            .project-viewer {
+                padding: 12px;
+            }
+
+            .project-viewer__panel {
+                padding: 18px;
+                border-radius: 24px;
+            }
+
+            .project-viewer__thumbs {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <div id="maintenance-overlay">
-        <h1 style="font-size: 3rem;">🛠️</h1>
-        <h2 id="maint-title">Update</h2>
-        <p id="maint-desc">Maintenance or improvements are being made,<br>come back later!<br>Onderhoud of vernieuwingen zijn momenteel bezig,<br>kom later terug!</p>
-    </div>
-
-    <div class="lang-switch">
-        <button id="btn-nl" class="lang-btn active" onclick="setLang('nl')">NL</button>
-        <button id="btn-en" class="lang-btn" onclick="setLang('en')">EN</button>
-    </div>
-
-    <div class="sun-ray"></div>
-    
-    <div id="viewer">
-        <div style="position: absolute; top: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 30px; z-index: 2005;">
-            <div id="viewer-counter" style="color: white; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px;">1 / 1</div>
-            <div onclick="closeViewer()" style="color: white; font-size: 24px; cursor: pointer;">✕</div>
-        </div>
-        
-        <div id="swipe-instruction">
-            <div class="hand-icon">👈👉</div>
-            <p id="instruction-text">Tik of veeg om te bladeren</p>
-        </div>
-
-        <div class="nav-area" style="left:0;" onclick="prevImg()"></div>
-        <div class="nav-area" style="right:0;" onclick="nextImg()"></div>
-        <img id="viewer-img" src="">
-    </div>
-
-    <div class="toggle-container"><div class="menu-circle" onclick="toggleSidebar()"><div class="menu-line"></div><div class="menu-line"></div></div></div>
-
-    <div class="sidebar-container closed" id="sidebar">
-        <div style="height: 20px;"></div>
-        <div class="nav-btn" id="nav-home" onclick="goPage('home')">Home</div>
-        <div class="nav-btn" id="nav-bio" onclick="goPage('bio')">Biografie</div>
-        <div class="nav-btn" id="nav-project" onclick="goPage('project')">Projecten</div>
-        <div class="nav-btn" id="nav-updates" onclick="goPage('updates')">Updates</div>
-        <div class="nav-btn" id="nav-social" onclick="goPage('social')">Social media</div>
-    </div>
-
-    <div class="main-panel" id="mainPanel">
-        <div id="content-wrapper" class="content-in">
-            <h1 id="title">Stanamarenko</h1>
-            <p id="desc" class="description">De officiële website.</p>
-            <div id="projectList"></div>
+    <canvas class="starfield" aria-hidden="true"></canvas>
+    <div class="page-glow" aria-hidden="true"></div>
+    <div class="progress" id="progress"></div>
+    <div class="maintenance-overlay" id="maintenanceOverlay" aria-hidden="true">
+        <div class="maintenance-card">
+            <div class="maintenance-card__badge">||</div>
+            <h2 id="maintenanceTitle">Website tijdelijk op pauze</h2>
+            <p id="maintenanceCopy">Onderhoud of vernieuwingen zijn bezig. Kom later nog eens terug.</p>
         </div>
     </div>
 
-    <footer id="footer-text">STANAMARENKO © 2026</footer>
+    <header class="site-header">
+        <div class="site-header__bar">
+            <a class="brand" href="#hero" aria-label="Ga naar boven">
+                <img class="brand__mark" src="./assets/logo-s-dark.svg" alt="Stanamarenko logo">
+                <div class="brand__text">
+                    <div class="brand__title">Stanamarenko</div>
+                    <div class="brand__meta" id="brandMeta">Projecten, observaties en updates</div>
+                </div>
+            </a>
+
+            <div class="header-middle">
+                <nav class="desktop-nav" aria-label="Hoofdnavigatie">
+                    <a class="nav-link" href="#featured" data-nav="featured">Projecten</a>
+                    <a class="nav-link" href="#timeline" data-nav="timeline">Tijdlijn</a>
+                    <a class="nav-link" href="#gallery" data-nav="gallery">Galerij</a>
+                    <a class="nav-link" href="#updates" data-nav="updates">Updates</a>
+                    <a class="nav-link" href="#contact" data-nav="contact">Contact</a>
+                </nav>
+                <a class="header-instagram" id="headerInstagram" href="https://www.instagram.com/stanamarenko" target="_blank" rel="noreferrer">Instagram</a>
+            </div>
+
+            <div class="header-actions">
+                <div class="lang-switch" aria-label="Language switch">
+                    <button type="button" class="active" data-lang="nl">NL</button>
+                    <button type="button" data-lang="en">EN</button>
+                </div>
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileNav" id="menuToggle">+</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobiele navigatie">
+        <a class="nav-link" href="#featured" data-nav="featured">Projecten</a>
+        <a class="nav-link" href="#timeline" data-nav="timeline">Tijdlijn</a>
+        <a class="nav-link" href="#gallery" data-nav="gallery">Galerij</a>
+        <a class="nav-link" href="#updates" data-nav="updates">Updates</a>
+        <a class="nav-link" href="#contact" data-nav="contact">Contact</a>
+    </nav>
+
+    <main>
+        <section class="hero" id="hero" data-section="hero">
+            <div class="hero__beam" aria-hidden="true"></div>
+            <div class="hero__shell">
+                <div class="hero__copy reveal">
+                    <div class="eyebrow" id="heroEyebrow">Wetenschap, waarneming en verbeelding in een rijkere vorm</div>
+                    <h1 id="heroTitle">Stanamarenko</h1>
+                    <div class="hero__lead-wrap" id="heroLeadWrap">
+                        <div class="hero__lead-card">
+                            <p class="hero__lead" id="heroLead">
+                                Projecten, observaties en updates komen hier samen in een levendige stroom van beelden,
+                                experimenten en logboekmomenten.
+                            </p>
+                        </div>
+                        <button class="hero__lead-toggle" type="button" id="heroLeadToggle" hidden>Lees meer</button>
+                    </div>
+                    <div class="hero__actions">
+                        <a class="cta" href="#featured" id="heroPrimary">Bekijk het projectlandschap</a>
+                        <a class="ghost" href="#gallery" id="heroSecondary">Open de beeldgalerij</a>
+                    </div>
+                    <div class="hero__meta">
+                        <div class="meta-chip">
+                            <strong id="metaCountOne" data-counter="12">0</strong>
+                            <span id="metaOne">Visuele ankerpunten per bezoek</span>
+                        </div>
+                        <div class="meta-chip">
+                            <strong id="metaCountTwo" data-counter="4">0</strong>
+                            <span id="metaTwo">Hoofdsporen in de opbouw</span>
+                        </div>
+                        <div class="meta-chip">
+                            <strong id="metaCountThree" data-counter="100">0</strong>
+                            <span id="metaThree">Meer gevoel van momentum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero__stack reveal">
+                    <div class="hero-card hero-card--project">
+                        <img src="./assets/project-space.png" alt="Projectruimte met planeten en labels">
+                        <div class="hero-card__overlay">
+                            <strong id="stackOneTitle">Projectpresentatie</strong>
+                            <span id="stackOneCopy">Visueel en direct leesbaar</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-card hero-card--main">
+                        <img src="./assets/moon-detail.jpg" alt="Close-up van de maan">
+                        <div class="hero-card__overlay">
+                            <strong id="stackTwoTitle">Observatie als hoofdrol</strong>
+                            <span id="stackTwoCopy">Niet alleen tonen, maar laten beleven</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-card hero-card--moon">
+                        <img src="./assets/moon-day.jpg" alt="Maan zichtbaar in blauwe lucht">
+                        <div class="hero-card__overlay">
+                            <strong id="stackThreeTitle">Rustige ritmes</strong>
+                            <span id="stackThreeCopy">Veel beweging zonder rommelig te worden</span>
+                        </div>
+                    </div>
+
+                    <div class="floating-logo" aria-hidden="true">
+                        <img src="./assets/logo.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="hero__scroll" id="heroScroll">Scroll door de site</div>
+        </section>
+
+        <section class="summary-band">
+            <div class="summary-band__inner">
+                <article class="summary-item reveal">
+                    <strong data-counter="3">0</strong>
+                    <h3 id="summaryOneTitle">Heldere verhaallijnen</h3>
+                    <p id="summaryOneCopy">Projecten, observaties en updates krijgen elk een eigen ritme.</p>
+                </article>
+                <article class="summary-item reveal">
+                    <strong data-counter="6">0</strong>
+                    <h3 id="summaryTwoTitle">Motionlagen</h3>
+                    <p id="summaryTwoCopy">Scroll reveals, lichtverschuivingen, staged beeldwissels en een viewer.</p>
+                </article>
+                <article class="summary-item reveal">
+                    <strong data-counter="2">0</strong>
+                    <h3 id="summaryThreeTitle">Talen klaar</h3>
+                    <p id="summaryThreeCopy">Deze conceptversie schakelt meteen tussen Nederlands en Engels.</p>
+                </article>
+                <article class="summary-item reveal">
+                    <strong data-counter="1">0</strong>
+                    <h3 id="summaryFourTitle">Lokale test</h3>
+                    <p id="summaryFourCopy">Gewoon openen in de browser, zonder GitHub of Firebase.</p>
+                </article>
+            </div>
+        </section>
+
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker__marquee" id="tickerMarquee">
+                <div class="ticker__track" id="tickerTrackA">
+                    <span>Observatie</span>
+                    <span>Projectritme</span>
+                    <span>Fotografie</span>
+                    <span>Updates</span>
+                    <span>Galerij</span>
+                    <span>Tijdlijn</span>
+                </div>
+                <div class="ticker__track" id="tickerTrackB" aria-hidden="true">
+                    <span>Observatie</span>
+                    <span>Projectritme</span>
+                    <span>Fotografie</span>
+                    <span>Updates</span>
+                    <span>Galerij</span>
+                    <span>Tijdlijn</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="featured" id="featured" data-section="featured">
+            <div class="section-shell">
+                <div class="section-head reveal">
+                    <div>
+                        <div class="section-kicker" id="featuredKicker">Klik op projecten om ze volledig te bekijken</div>
+                        <h2 class="section-title" id="featuredTitle">Projecten</h2>
+                        <p class="section-copy" id="featuredCopy">
+                            Elke kaart toont eerst een coverfoto. Zodra je klikt, opent het project met alle beelden en de volledige beschrijving.
+                        </p>
+                    </div>
+                    <a class="jump-link" href="#updates" id="featuredJump">Spring naar de updates</a>
+                </div>
+
+                <div class="featured-grid">
+                    <div class="selector reveal" id="projectSelector" aria-label="Projectkeuze"></div>
+                </div>
+                <div class="section-more">
+                    <button class="more-button" type="button" id="projectsMoreButton">Meer projecten</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="observation" data-section="observation">
+            <div class="section-shell">
+                <div class="section-head reveal">
+                    <div>
+                        <div class="section-kicker" id="observationKicker">Observatie als ervaring</div>
+                        <h2 class="section-title" id="observationTitle">Eenzelfde onderwerp mag meerdere stemmingen dragen</h2>
+                        <p class="section-copy" id="observationCopy">
+                            In plaats van beelden alleen onder elkaar te zetten, krijgt observatie hier een instrument:
+                            een schuif die dag en nacht tegen elkaar zet en meteen het verhaal van het kijken toont.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="compare-grid">
+                    <div class="compare-stage reveal">
+                        <img src="./assets/moon-night.jpg" alt="Maan in een donkere nachtelijke hemel">
+                        <img class="compare-after" id="compareAfter" src="./assets/moon-day.jpg" alt="Maan zichtbaar overdag tegen blauwe lucht">
+                        <div class="compare-line" id="compareLine"></div>
+                        <div class="compare-handle" id="compareHandle"><span><-></span></div>
+                        <input class="compare-range" id="compareRange" type="range" min="0" max="100" value="50" aria-label="Vergelijk dag en nacht">
+                    </div>
+
+                    <div class="compare-copy reveal">
+                        <div class="note-list" id="observationNotes"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline" id="timeline" data-section="timeline">
+            <div class="section-shell">
+                <div class="section-head reveal">
+                    <div>
+                        <div class="section-kicker" id="timelineKicker">Proces en voortgang</div>
+                        <h2 class="section-title" id="timelineTitle">De site laat nu beter zien hoe iets groeit</h2>
+                        <p class="section-copy" id="timelineCopy">Projecten en updates komen hier samen in een heldere stroom, zodat u meteen ziet wat recent is.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-list" id="timelineList"></div>
+            </div>
+        </section>
+
+        <section id="gallery" data-section="gallery">
+            <div class="section-shell">
+                <div class="section-head reveal">
+                    <div>
+                        <div class="section-kicker" id="galleryKicker">Galerij</div>
+                        <h2 class="section-title" id="galleryTitle">Grotere beelden, minder ruis, meer aandacht</h2>
+                        <p class="section-copy" id="galleryCopy">Een aantal beelden uit alle projecten.</p>
+                    </div>
+                    <a class="jump-link" href="#contact" id="galleryJump">Ga naar contact</a>
+                </div>
+
+                <div class="gallery-grid" id="galleryGrid"></div>
+                <div class="section-more">
+                    <button class="more-button" type="button" id="galleryMoreButton">Meer bekijken</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="updates" data-section="updates">
+            <div class="section-shell">
+                <div class="section-head reveal">
+                    <div>
+                        <div class="section-kicker" id="updatesKicker">Updates</div>
+                        <h2 class="section-title" id="updatesTitle">Updates &amp; logboekmomenten</h2>
+                        <p class="section-copy" id="updatesCopy"></p>
+                    </div>
+                </div>
+
+                <div class="updates-grid" id="updatesGrid"></div>
+                <div class="section-more">
+                    <button class="more-button" type="button" id="updatesMoreButton">Meer updates</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-band" id="contact" data-section="contact">
+            <div class="contact-shell reveal">
+                <div>
+                    <h2 id="contactTitle">Contact</h2>
+                    <p id="contactCopy"></p>
+                </div>
+                <div class="social-links">
+                    <a class="social-link" href="https://www.instagram.com/stanamarenko" target="_blank" rel="noreferrer" id="contactPrimary">Instagram</a>
+                    <a class="social-link" href="#hero" id="contactSecondary">Terug naar boven</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <span id="footerLeft">Stanamarenko - officiele website</span>
+        <span id="footerRight">Projecten, beelden en updates op een plek</span>
+    </footer>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <div class="lightbox__frame">
+            <div class="lightbox__media">
+                <button class="lightbox__close" type="button" id="lightboxClose" aria-label="Sluiten">x</button>
+                <button class="lightbox__nav lightbox__nav--prev" type="button" id="lightboxPrev" aria-label="Vorige afbeelding"><</button>
+                <button class="lightbox__nav lightbox__nav--next" type="button" id="lightboxNext" aria-label="Volgende afbeelding">></button>
+                <img id="lightboxImage" src="" alt="">
+            </div>
+            <div class="lightbox__caption">
+                <strong id="lightboxTitle"></strong>
+                <span id="lightboxDescription"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-viewer" id="projectViewer" aria-hidden="true">
+        <div class="project-viewer__frame">
+            <div class="project-viewer__media">
+                <button class="project-viewer__close" type="button" id="projectViewerClose" aria-label="Sluiten">x</button>
+                <button class="project-viewer__nav project-viewer__nav--prev" type="button" id="projectViewerPrev" aria-label="Vorige afbeelding"><</button>
+                <button class="project-viewer__nav project-viewer__nav--next" type="button" id="projectViewerNext" aria-label="Volgende afbeelding">></button>
+                <img id="projectViewerImage" src="" alt="">
+            </div>
+            <aside class="project-viewer__panel">
+                <div class="project-viewer__eyebrow" id="projectViewerEyebrow">Project</div>
+                <h3 class="project-viewer__title" id="projectViewerTitle"></h3>
+                <p class="project-viewer__description" id="projectViewerDescription"></p>
+                <div class="project-viewer__meta" id="projectViewerMeta"></div>
+                <div class="project-viewer__thumbs" id="projectViewerThumbs"></div>
+            </aside>
+        </div>
+    </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyAz4ELbQaheZ1KrjHud9K9_b6vGJoCYZuY",
+            authDomain: "stanamarenko-web.firebaseapp.com",
+            projectId: "stanamarenko-web",
+            storageBucket: "stanamarenko-web.firebasestorage.app",
+            messagingSenderId: "489566650179",
+            appId: "1:489566650179:web:b7d95977f1f44c0508b9f6"
+        };
 
-        const firebaseConfig = { apiKey: "AIzaSyAz4ELbQaheZ1KrjHud9K9_b6vGJoCYZuY", authDomain: "stanamarenko-web.firebaseapp.com", projectId: "stanamarenko-web", storageBucket: "stanamarenko-web.firebasestorage.app", messagingSenderId: "489566650179", appId: "1:489566650179:web:b7d95977f1f44c0508b9f6" };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        function formatDateValue(value) {
+            if (!value) return "";
+            const date = typeof value.toDate === "function" ? value.toDate() : new Date(value);
+            if (Number.isNaN(date.getTime())) return "";
+            return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        }
 
-        let currentLang = 'nl';
-        let currentPage = 'home';
-        let currentImages = []; let currentIndex = 0;
-        let touchstartX = 0; let touchendX = 0;
-        let instructionShown = false;
+        function toTimestamp(value) {
+            if (!value) return 0;
+            const date = typeof value.toDate === "function" ? value.toDate() : new Date(value);
+            return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+        }
 
-        const translations = {
+        async function loadReadOnlySiteData() {
+            try {
+                const [{ initializeApp }, firestore] = await Promise.all([
+                    import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"),
+                    import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js")
+                ]);
+
+                const { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, onSnapshot } = firestore;
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                onSnapshot(doc(db, "siteData", "status"), (snapshot) => {
+                    window.dispatchEvent(new CustomEvent("stan-maintenance", {
+                        detail: snapshot.exists() ? Boolean(snapshot.data().onderhoud) : false
+                    }));
+                });
+
+                const [bioSnap, projectSnap, updateSnap] = await Promise.all([
+                    getDoc(doc(db, "siteData", "biografie")),
+                    getDocs(query(collection(db, "projecten"), orderBy("datum", "desc"))),
+                    getDocs(query(collection(db, "updates"), orderBy("datum", "desc")))
+                ]);
+
+                const mapEntry = (entry) => {
+                    const data = entry.data();
+                    return {
+                        id: entry.id,
+                        title: data.titel || "",
+                        titleEn: data.titelEn || data.titel || "",
+                        description: data.beschrijving || "",
+                        descriptionEn: data.beschrijvingEn || data.beschrijving || "",
+                        photos: Array.isArray(data.fotos) ? data.fotos.filter(Boolean) : [],
+                        image: Array.isArray(data.fotos) && data.fotos.length ? data.fotos[0] : "",
+                        postedText: data.datumTekst || formatDateValue(data.datum),
+                        updatedText: data.reUpdateTekst || "",
+                        sortMs: Math.max(toTimestamp(data.reUpdateDatum), toTimestamp(data.datum)),
+                        postedMs: toTimestamp(data.datum)
+                    };
+                };
+
+                const payload = {
+                    bio: bioSnap.exists() ? {
+                        nl: bioSnap.data().tekst || "",
+                        en: bioSnap.data().tekstEn || bioSnap.data().tekst || ""
+                    } : null,
+                    projects: projectSnap.docs.map(mapEntry),
+                    updates: updateSnap.docs.map(mapEntry)
+                };
+
+                window.dispatchEvent(new CustomEvent("stan-live-data", { detail: payload }));
+            } catch (error) {
+                window.dispatchEvent(new CustomEvent("stan-live-data-error", {
+                    detail: error instanceof Error ? error.message : String(error)
+                }));
+            }
+        }
+
+        loadReadOnlySiteData();
+    </script>
+
+    <script>
+        const content = {
             nl: {
-                homeTitle: "Stanamarenko", homeDesc: "De officiële website.",
-                bioTitle: "Biografie", socialTitle: "Social Media", socialDesc: "Volg mij online.",
-                projectsTitle: "Projecten", updatesTitle: "Logboek / Updates", subText: "Nieuwste bovenaan.",
-                navBio: "Biografie", navProj: "Projecten", navUpd: "Updates", navSoc: "Social media",
-                maintTitle: "Update", maintDesc: "Onderhoud of vernieuwingen zijn momenteel bezig,<br>kom later terug!",
-                posted: "Gepost", update: "Update", instruct: "Tik of veeg om te bladeren"
+                brandMeta: "Projecten, observaties en updates",
+                nav: {
+                    featured: "Projecten",
+                    timeline: "Tijdlijn",
+                    gallery: "Galerij",
+                    updates: "Updates",
+                    contact: "Contact"
+                },
+                heroEyebrow: "Wetenschap, waarneming en verbeelding in een rijkere vorm",
+                heroTitle: "Stanamarenko",
+                heroLead: "Projecten, observaties en updates komen hier samen in een levendige stroom van beelden, experimenten en logboekmomenten.",
+                heroPrimary: "Bekijk de projecten",
+                heroSecondary: "Ga naar de galerij",
+                heroScroll: "Scroll door de site",
+                headerInstagram: "Instagram",
+                heroMore: "Lees meer",
+                heroLess: "Toon minder",
+                metaOne: "Visuele ankerpunten per bezoek",
+                metaTwo: "Hoofdsporen in de opbouw",
+                metaThree: "Meer gevoel van momentum",
+                stackOneTitle: "Projectpresentatie",
+                stackOneCopy: "Visueel en direct leesbaar",
+                stackTwoTitle: "Observatie als hoofdrol",
+                stackTwoCopy: "Niet alleen tonen, maar laten beleven",
+                stackThreeTitle: "Rustige ritmes",
+                stackThreeCopy: "Veel beweging zonder rommelig te worden",
+                summary: [
+                    { title: "Projecten", copy: "Klik op een projectkaart om alle foto's en details te openen." },
+                    { title: "Updates", copy: "Nieuwe logboekmomenten krijgen een eigen plaats met duidelijke data." },
+                    { title: "Galerij", copy: "Beelden blijven centraal staan en krijgen veel meer ruimte." },
+                    { title: "Talen", copy: "De site blijft bruikbaar in zowel Nederlands als Engels." }
+                ],
+                ticker: ["Projecten", "Observatie", "Fotografie", "Updates", "Galerij", "Tijdlijn"],
+                featuredIntro: {
+                    kicker: "Klik op projecten om ze volledig te bekijken",
+                    title: "Projecten",
+                    copy: "Elke kaart toont eerst een coverfoto. Zodra je klikt, opent het project met alle beelden en de volledige beschrijving.",
+                    jump: "Spring naar de updates",
+                    stageTag: "Project"
+                },
+                projects: [
+                    {
+                        label: "Observatie",
+                        title: "Hemelkaart als eerste blik",
+                        preview: "Een groot beeld, kernwoorden en een ritme van details maken dit veel sterker als entree voor een project.",
+                        description: "De bezoeker ziet hier niet alleen een titel, maar krijgt meteen context: wat is de stemming, welk soort project is dit, en waarom moet je verder kijken. Dat voelt zelfverzekerder en veel minder als een standaard portfolio-feed.",
+                        facts: ["Hero-waardig", "Sterke eerste focus", "Past bij lange projecttekst"],
+                        image: "./assets/project-space.png",
+                        photos: ["./assets/project-space.png", "./assets/moon-day.jpg", "./assets/moon-detail.jpg"]
+                    },
+                    {
+                        label: "Experiment",
+                        title: "Landschap en energie in een cinematografische laag",
+                        preview: "Projectkaarten mogen groter, beeldgedrevener en minder afhankelijk van admin-tekst zijn.",
+                        description: "Door brede beelden te combineren met een zachte glazen informatielaag krijg je een projectgevoel dat tegelijk artistiek en overzichtelijk is. De bezoeker onthoudt het beeld en pas daarna de metadata.",
+                        facts: ["Brede visuals", "Zachte glass overlay", "Meteen memorabel"],
+                        image: "./assets/project-energy.png",
+                        photos: ["./assets/project-energy.png", "./assets/hero-sky.jpg"]
+                    },
+                    {
+                        label: "Fotografie",
+                        title: "Maanobservatie als langzaam opgebouwde scene",
+                        preview: "Voor echt sterke foto's verdient de site een rustiger podium met beweging die ondersteunend is.",
+                        description: "Deze aanpak laat een beeld voldoende groot binnenkomen en geeft er daarna tekst en details naast. Daardoor voelt het minder als een document en meer als een uitgewerkte observatie.",
+                        facts: ["Rustige detailruimte", "Sterk op mobiel", "Makkelijk uit te breiden"],
+                        image: "./assets/moon-detail.jpg",
+                        photos: ["./assets/moon-detail.jpg", "./assets/moon-night.jpg", "./assets/moon-day.jpg"]
+                    }
+                ],
+                observation: {
+                    kicker: "Observaties",
+                    title: "Uitgelichte observaties",
+                    copy: "Ruimte voor beelden, context en een rustiger manier om observaties te tonen.",
+                    notes: [
+                        { title: "Dag versus nacht", copy: "Een simpele vergelijking maakt meteen duidelijk dat hetzelfde onderwerp meerdere contexten en emoties kan dragen." },
+                        { title: "Interactieve rust", copy: "De beweging zit in de interactie zelf. Dat maakt de pagina levend zonder te schreeuwen." },
+                        { title: "Meer detailwaarde", copy: "Sterke foto's krijgen zo vanzelf meer aandacht dan wanneer ze alleen onderaan een update hangen." }
+                    ]
+                },
+                timeline: {
+                    kicker: "Tijdlijn",
+                    title: "Volg de nieuwste bewegingen op de site",
+                    copy: "Projecten en updates komen hier samen in een heldere stroom, zodat u meteen ziet wat recent is.",
+                    items: [
+                        { date: "Week 1", title: "Conceptrichting bepalen", copy: "Het project begint met een vraag: moet de site vooral archiveren of echt mensen meenemen? In deze versie is het antwoord duidelijk het tweede." },
+                        { date: "Week 2", title: "Sterkere eerste indruk", copy: "De home is niet meer alleen een titel in een kader. Ze opent nu als scene, met diepte, beeldwissels en een veel beter gevoel van schaal." },
+                        { date: "Week 3", title: "Projecten apart laten ademen", copy: "Projecten staan niet meer gevangen in identieke blokken. Ze krijgen een eigen presentatie, waardoor elk item meer karakter mag hebben." },
+                        { date: "Week 4", title: "Updates compact maar zichtbaar", copy: "Kortere posts blijven belangrijk, maar ze worden nu als signalen gelezen in plaats van als de hoofdstructuur van de hele site." }
+                    ]
+                },
+                gallery: {
+                    kicker: "Galerij",
+                    title: "Uitgelichte beelden uit projecten en updates",
+                    copy: "Een aantal beelden uit alle projecten.",
+                    jump: "Ga naar contact",
+                    items: [
+                        { title: "Lunar detail", description: "Close-up werk dat beter functioneert in een groot frame.", image: "./assets/moon-detail.jpg", size: "wide" },
+                        { title: "Moon in daylight", description: "Een zachtere observatie met veel lucht en stilte.", image: "./assets/moon-day.jpg", size: "tall" },
+                        { title: "Night capture", description: "Minimalistisch beeld met focus op contrast.", image: "./assets/moon-night.jpg", size: "medium" },
+                        { title: "Project space", description: "Ruimteproject met typografie als laag boven het beeld.", image: "./assets/project-space.png", size: "medium" },
+                        { title: "Project energy", description: "Fel landschap met glaslaag en uitgesproken kleurtoon.", image: "./assets/project-energy.png", size: "wide" },
+                        { title: "Sky world", description: "Een sfeerbeeld dat als overgang of achtergrond kan dienen.", image: "./assets/hero-sky.jpg", size: "tall" }
+                    ]
+                },
+                updates: {
+                    kicker: "Updates",
+                    title: "Updates & logboekmomenten",
+                    copy: "",
+                    items: [
+                        { date: "14 feb", title: "Nieuwe observatiereeks gestart", copy: "Een updateblok hoeft niet groot te zijn als het meteen richting geeft. Hier kan je eenvoudig nieuwe experimenten of tests aankondigen.", tags: ["nieuw", "observatie"] },
+                        { date: "22 feb", title: "Projectlayout kreeg meer diepte", copy: "In deze conceptstructuur kan een update ook visueel vertellen wat er veranderd is, zonder dat de bezoeker alles moet lezen.", tags: ["layout", "motion"] },
+                        { date: "3 mrt", title: "Galerij en viewer voelen meer premium", copy: "Sterke beelden verdienen een groter toneel. De viewer en het ongelijk raster helpen daar veel mee.", tags: ["galerij", "UX"] }
+                    ]
+                },
+                contact: {
+                    title: "Contact",
+                    copy: "",
+                    primary: "Instagram",
+                    secondary: "Terug naar boven"
+                },
+                maintenance: {
+                    title: "Website tijdelijk op pauze",
+                    copy: "Onderhoud of vernieuwingen zijn bezig. Kom later nog eens terug."
+                },
+                footerLeft: "Stanamarenko - officiele website",
+                footerRight: "Projecten, beelden en updates op een plek"
             },
             en: {
-                homeTitle: "Stanamarenko", homeDesc: "The official website.",
-                bioTitle: "Biography", socialTitle: "Social Media", socialDesc: "Follow me online.",
-                projectsTitle: "Projects", updatesTitle: "Logbook / Updates", subText: "Latest on top.",
-                navBio: "Biography", navProj: "Projects", navUpd: "Updates", navSoc: "Social media",
-                maintTitle: "Website Paused", maintDesc: "Maintenance or updates are currently in progress,<br>please check back later!",
-                posted: "Posted", update: "Update", instruct: "Tap or swipe to browse"
+                brandMeta: "Projects, observation and updates",
+                nav: {
+                    featured: "Projects",
+                    timeline: "Timeline",
+                    gallery: "Gallery",
+                    updates: "Updates",
+                    contact: "Contact"
+                },
+                heroEyebrow: "Science, observation and imagination in a richer form",
+                heroTitle: "Stanamarenko",
+                heroLead: "Projects, observations and updates come together here in a lively flow of images, experiments and logbook moments.",
+                heroPrimary: "View the projects",
+                heroSecondary: "Go to the gallery",
+                heroScroll: "Scroll through the site",
+                headerInstagram: "Instagram",
+                heroMore: "Read more",
+                heroLess: "Show less",
+                metaOne: "Visual anchors per visit",
+                metaTwo: "Main structure tracks",
+                metaThree: "More sense of momentum",
+                stackOneTitle: "Project presentation",
+                stackOneCopy: "Visual and readable at a glance",
+                stackTwoTitle: "Observation in the lead",
+                stackTwoCopy: "Not just shown, but experienced",
+                stackThreeTitle: "Calmer rhythms",
+                stackThreeCopy: "A lot of motion without becoming messy",
+                summary: [
+                    { title: "Projects", copy: "Click a project card to open all images and the full project description." },
+                    { title: "Updates", copy: "New logbook moments get their own place with clear dates." },
+                    { title: "Gallery", copy: "Images remain central and receive much more visual space." },
+                    { title: "Languages", copy: "The site remains usable in both Dutch and English." }
+                ],
+                ticker: ["Projects", "Observation", "Photography", "Updates", "Gallery", "Timeline"],
+                featuredIntro: {
+                    kicker: "Click projects to view them fully",
+                    title: "Projects",
+                    copy: "Each card starts with a cover image. Once opened, the project reveals all images and the complete description.",
+                    jump: "Jump to updates",
+                    stageTag: "Project"
+                },
+                projects: [
+                    {
+                        label: "Observation",
+                        title: "Sky map as the first impression",
+                        preview: "A large image, key phrases and a rhythm of details make this much stronger as a project entrance.",
+                        description: "The visitor does not only see a title here, but gets context immediately: what is the mood, what kind of project is this, and why should I keep looking. It feels more confident and much less like a standard portfolio feed.",
+                        facts: ["Hero ready", "Strong first focus", "Fits long project copy"],
+                        image: "./assets/project-space.png",
+                        photos: ["./assets/project-space.png", "./assets/moon-day.jpg", "./assets/moon-detail.jpg"]
+                    },
+                    {
+                        label: "Experiment",
+                        title: "Landscape and energy in a cinematic layer",
+                        preview: "Project cards can be larger, more image-led and less dependent on admin text.",
+                        description: "By combining wide visuals with a soft glass information layer, the page feels both artistic and structured. Visitors remember the image first and the metadata second.",
+                        facts: ["Wide visuals", "Soft glass overlay", "Instantly memorable"],
+                        image: "./assets/project-energy.png",
+                        photos: ["./assets/project-energy.png", "./assets/hero-sky.jpg"]
+                    },
+                    {
+                        label: "Photography",
+                        title: "Moon observation as a slowly built scene",
+                        preview: "Really strong photos deserve a calmer stage with motion that supports instead of distracts.",
+                        description: "This approach gives the image enough scale and then lets text and details arrive around it. The result feels less like a document and more like a finished observation.",
+                        facts: ["Quiet detail space", "Strong on mobile", "Easy to expand"],
+                        image: "./assets/moon-detail.jpg",
+                        photos: ["./assets/moon-detail.jpg", "./assets/moon-night.jpg", "./assets/moon-day.jpg"]
+                    }
+                ],
+                observation: {
+                    kicker: "Observation",
+                    title: "Highlighted observations",
+                    copy: "Room for images, context and a calmer way to present observations.",
+                    notes: [
+                        { title: "Day versus night", copy: "A simple comparison instantly shows that the same subject can carry different contexts and emotional tones." },
+                        { title: "Interactive calm", copy: "The movement lives inside the interaction itself. That keeps the page alive without making it noisy." },
+                        { title: "More image value", copy: "Strong photographs receive more attention this way than when they only sit at the bottom of an update." }
+                    ]
+                },
+                timeline: {
+                    kicker: "Timeline",
+                    title: "Follow the latest movement on the site",
+                    copy: "Projects and updates come together here in a clear flow, so you immediately see what is recent.",
+                    items: [
+                        { date: "Week 1", title: "Choosing the concept direction", copy: "The project starts with a question: should the site mainly archive, or really guide people into the work? In this version the answer is clearly the second." },
+                        { date: "Week 2", title: "A stronger first impression", copy: "The home is no longer only a title inside a frame. It now opens like a scene, with depth, image shifts and a much better sense of scale." },
+                        { date: "Week 3", title: "Giving projects room to breathe", copy: "Projects are no longer trapped in identical blocks. They get their own presentation, which allows every item to carry more character." },
+                        { date: "Week 4", title: "Compact but visible updates", copy: "Shorter posts remain important, but they are now read as signals instead of acting as the main structure of the entire site." }
+                    ]
+                },
+                gallery: {
+                    kicker: "Gallery",
+                    title: "Highlighted images from projects",
+                    copy: "A selection of images from all projects.",
+                    jump: "Go to contact",
+                    items: [
+                        { title: "Lunar detail", description: "Close-up work that performs better inside a large frame.", image: "./assets/moon-detail.jpg", size: "wide" },
+                        { title: "Moon in daylight", description: "A softer observation with a lot of air and quiet.", image: "./assets/moon-day.jpg", size: "tall" },
+                        { title: "Night capture", description: "Minimal image with strong contrast focus.", image: "./assets/moon-night.jpg", size: "medium" },
+                        { title: "Project space", description: "Space-themed project with typography layered over the image.", image: "./assets/project-space.png", size: "medium" },
+                        { title: "Project energy", description: "Bright landscape with glass overlay and a bold color tone.", image: "./assets/project-energy.png", size: "wide" },
+                        { title: "Sky world", description: "Atmospheric image that can also act as a transition band or background.", image: "./assets/hero-sky.jpg", size: "tall" }
+                    ]
+                },
+                updates: {
+                    kicker: "Updates",
+                    title: "Updates & logbook moments",
+                    copy: "",
+                    items: [
+                        { date: "14 Feb", title: "New observation series started", copy: "An update block does not need to be large if it immediately gives direction. Here you can announce new experiments or tests in a clean way.", tags: ["new", "observation"] },
+                        { date: "22 Feb", title: "Project layout gained more depth", copy: "In this concept structure an update can also visually explain what changed, without forcing the visitor to read everything.", tags: ["layout", "motion"] },
+                        { date: "3 Mar", title: "Gallery and viewer feel more premium", copy: "Strong images deserve a larger stage. The viewer and uneven grid do a lot of work there.", tags: ["gallery", "UX"] }
+                    ]
+                },
+                contact: {
+                    title: "Contact",
+                    copy: "",
+                    primary: "Instagram",
+                    secondary: "Back to top"
+                },
+                maintenance: {
+                    title: "Website temporarily paused",
+                    copy: "Maintenance or updates are in progress. Please check back again later."
+                },
+                footerLeft: "Stanamarenko - official website",
+                footerRight: "Projects, images and updates in one place"
             }
         };
 
-        // Taalkeuze
-        window.setLang = (lang) => {
-            if(lang === currentLang) return;
-            currentLang = lang;
-            document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
-            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-            const t = translations[lang];
-            document.getElementById('nav-bio').innerText = t.navBio;
-            document.getElementById('nav-project').innerText = t.navProj;
-            document.getElementById('nav-updates').innerText = t.navUpd;
-            document.getElementById('nav-social').innerText = t.navSoc;
-            document.getElementById('maint-title').innerText = t.maintTitle;
-            document.getElementById('maint-desc').innerHTML = t.maintDesc;
-            goPage(currentPage);
-        };
+        const summaryItems = document.querySelectorAll(".summary-item");
+        const selector = document.getElementById("projectSelector");
+        const projectsMoreButton = document.getElementById("projectsMoreButton");
+        const galleryMoreButton = document.getElementById("galleryMoreButton");
+        const updatesMoreButton = document.getElementById("updatesMoreButton");
+        const headerInstagram = document.getElementById("headerInstagram");
+        const stageImageA = document.getElementById("stageImageA");
+        const stageImageB = document.getElementById("stageImageB");
+        const stageTag = document.getElementById("stageTag");
+        const stageTitle = document.getElementById("stageTitle");
+        const stageDescription = document.getElementById("stageDescription");
+        const stageFacts = document.getElementById("stageFacts");
+        const observationNotes = document.getElementById("observationNotes");
+        const timelineList = document.getElementById("timelineList");
+        const galleryGrid = document.getElementById("galleryGrid");
+        const updatesGrid = document.getElementById("updatesGrid");
+        const navLinks = Array.from(document.querySelectorAll("[data-nav]"));
+        const progress = document.getElementById("progress");
+        const menuToggle = document.getElementById("menuToggle");
+        const mobileNav = document.getElementById("mobileNav");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImage = document.getElementById("lightboxImage");
+        const lightboxTitle = document.getElementById("lightboxTitle");
+        const lightboxDescription = document.getElementById("lightboxDescription");
+        const lightboxClose = document.getElementById("lightboxClose");
+        const lightboxPrev = document.getElementById("lightboxPrev");
+        const lightboxNext = document.getElementById("lightboxNext");
+        const projectViewer = document.getElementById("projectViewer");
+        const projectViewerImage = document.getElementById("projectViewerImage");
+        const projectViewerTitle = document.getElementById("projectViewerTitle");
+        const projectViewerDescription = document.getElementById("projectViewerDescription");
+        const projectViewerMeta = document.getElementById("projectViewerMeta");
+        const projectViewerThumbs = document.getElementById("projectViewerThumbs");
+        const projectViewerEyebrow = document.getElementById("projectViewerEyebrow");
+        const projectViewerClose = document.getElementById("projectViewerClose");
+        const projectViewerPrev = document.getElementById("projectViewerPrev");
+        const projectViewerNext = document.getElementById("projectViewerNext");
+        const compareRange = document.getElementById("compareRange");
+        const compareAfter = document.getElementById("compareAfter");
+        const compareLine = document.getElementById("compareLine");
+        const compareHandle = document.getElementById("compareHandle");
+        const maintenanceOverlay = document.getElementById("maintenanceOverlay");
+        const maintenanceTitle = document.getElementById("maintenanceTitle");
+        const maintenanceCopy = document.getElementById("maintenanceCopy");
+        const heroLeadWrap = document.getElementById("heroLeadWrap");
+        const heroLead = document.getElementById("heroLead");
+        const heroLeadToggle = document.getElementById("heroLeadToggle");
+        const stageImages = [stageImageA, stageImageB];
 
-        // Onderhoud
-        onSnapshot(doc(db, "siteData", "status"), (doc) => {
-            document.getElementById('maintenance-overlay').style.display = (doc.exists() && doc.data().onderhoud) ? 'flex' : 'none';
-        });
+        let currentLang = "nl";
+        let activeProject = 0;
+        let stageFront = 0;
+        let projectTimer = null;
+        let galleryItems = [];
+        let lightboxIndex = 0;
+        let projectViewerEntry = null;
+        let projectViewerImageIndex = 0;
+        let liveSiteData = null;
+        let liveStatus = "demo";
+        let heroLeadExpanded = false;
+        const baseProjectCount = 4;
+        const baseGalleryCount = 6;
+        const baseUpdateCount = 4;
+        let visibleProjectCount = baseProjectCount;
+        let visibleGalleryCount = baseGalleryCount;
+        let visibleUpdateCount = baseUpdateCount;
+        let galleryShuffleKey = "";
 
-        // Viewer & Swipe logica
-        const panel = document.getElementById('mainPanel');
-        const wrapper = document.getElementById('content-wrapper');
-        const viewer = document.getElementById('viewer');
+        function setText(id, value) {
+            const element = document.getElementById(id);
+            if (element) element.textContent = value;
+        }
 
-        window.openViewer = (imgArray, startIdx) => { 
-            currentImages = imgArray; currentIndex = startIdx; updateViewer(); 
-            viewer.style.display = 'flex'; 
-            if (!localStorage.getItem('viewer_hint_given')) {
-                document.getElementById('instruction-text').innerText = translations[currentLang].instruct;
-                document.getElementById('swipe-instruction').style.opacity = "1";
-                instructionShown = true;
-                setTimeout(hideInstruction, 3500);
+        function setOptionalText(id, value) {
+            const element = document.getElementById(id);
+            if (!element) return;
+            element.textContent = value || "";
+            element.style.display = value ? "" : "none";
+        }
+
+        function clipText(value, length) {
+            if (!value) return "";
+            return value.length > length ? `${value.slice(0, length).trim()}...` : value;
+        }
+
+        function getToggleLabel(kind, expanded) {
+            const labels = {
+                nl: {
+                    projects: expanded ? "Minder tonen" : "Meer projecten",
+                    gallery: expanded ? "Minder tonen" : "Meer bekijken",
+                    updates: expanded ? "Minder tonen" : "Meer updates"
+                },
+                en: {
+                    projects: expanded ? "Show less" : "More projects",
+                    gallery: expanded ? "Show less" : "See more",
+                    updates: expanded ? "Show less" : "More updates"
+                }
+            };
+
+            return labels[currentLang][kind];
+        }
+
+        function pickLocalizedPair(item, nlKey, enKey) {
+            if (!item) return "";
+            if (currentLang === "nl") return item[nlKey] || item[enKey] || "";
+            return item[enKey] || item[nlKey] || "";
+        }
+
+        function hasLiveContent() {
+            return liveStatus === "live" && liveSiteData;
+        }
+
+        function getBrandMetaText() {
+            return content[currentLang].brandMeta;
+        }
+
+        function getHeroLeadText() {
+            if (!hasLiveContent() || !liveSiteData.bio) return content[currentLang].heroLead;
+            const bio = pickLocalizedPair(liveSiteData.bio, "nl", "en");
+            return bio || content[currentLang].heroLead;
+        }
+
+        function syncHeroLeadLayout() {
+            const isNarrow = window.innerWidth <= 620;
+            const leadText = heroLead.textContent.trim();
+            const shouldCollapse = isNarrow && leadText.length > 220;
+
+            heroLeadWrap.classList.toggle("is-collapsible", shouldCollapse);
+            heroLeadWrap.classList.toggle("is-collapsed", shouldCollapse && !heroLeadExpanded);
+            heroLeadToggle.hidden = !shouldCollapse;
+            heroLeadToggle.setAttribute("aria-expanded", String(shouldCollapse ? heroLeadExpanded : true));
+            heroLeadToggle.textContent = heroLeadExpanded
+                ? content[currentLang].heroLess
+                : content[currentLang].heroMore;
+
+            if (!shouldCollapse) {
+                heroLeadExpanded = false;
             }
-        };
-        window.closeViewer = () => viewer.style.display = 'none';
-        window.nextImg = () => { 
-        hideInstruction(); 
-        currentIndex = (currentIndex + 1) % currentImages.length; 
-        const img = document.getElementById('viewer-img');
-        img.classList.remove('slide-in-right', 'slide-in-left');
-        void img.offsetWidth; // Forceer een "reflow" om de animatie te resetten
-        img.classList.add('slide-in-right');
-        updateViewer(); 
-        };
+        }
 
-        window.prevImg = () => { 
-        hideInstruction(); 
-        currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length; 
-        const img = document.getElementById('viewer-img');
-        img.classList.remove('slide-in-right', 'slide-in-left');
-        void img.offsetWidth; 
-        img.classList.add('slide-in-left');
-        updateViewer(); 
-        };
-        function updateViewer() { document.getElementById('viewer-img').src = currentImages[currentIndex]; document.getElementById('viewer-counter').innerText = `${currentIndex + 1} / ${currentImages.length}`; }
-        function hideInstruction() { if (instructionShown) { document.getElementById('swipe-instruction').style.opacity = "0"; localStorage.setItem('viewer_hint_given', 'true'); instructionShown = false; } }
+        function applyMaintenanceCopy() {
+            const data = content[currentLang].maintenance;
+            maintenanceTitle.textContent = data.title;
+            maintenanceCopy.textContent = data.copy;
+        }
 
-        viewer.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
-        viewer.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; if (touchendX < touchstartX - 50) nextImg(); if (touchendX > touchstartX + 50) prevImg(); }, {passive: true});
+        function setMaintenanceState(isPaused) {
+            maintenanceOverlay.classList.toggle("open", isPaused);
+            maintenanceOverlay.setAttribute("aria-hidden", String(!isPaused));
+            document.body.classList.toggle("is-maintenance", isPaused);
+            document.documentElement.style.overflow = isPaused ? "hidden" : "";
+            if (isPaused) {
+                closeLightbox();
+                closeProjectViewer();
+                mobileNav.classList.remove("open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                document.body.classList.remove("menu-open");
+            }
+        }
 
-        // UI Functies
-        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('closed');
-        function reveal() {
-            const boxes = document.querySelectorAll('.project-box');
-            const panelRect = panel.getBoundingClientRect();
-            boxes.forEach(box => {
-                const rect = box.getBoundingClientRect();
-                if (rect.top < panelRect.bottom - 50 && rect.bottom > panelRect.top + 50) box.classList.add('reveal');
-                else box.classList.remove('reveal');
+        function getSummaryData() {
+            if (!hasLiveContent()) return content[currentLang].summary;
+
+            return currentLang === "nl"
+                ? [
+                    { title: "Projecten", copy: `${liveSiteData.counts.projects} projecten zijn nu rechtstreeks op de site beschikbaar.` },
+                    { title: "Updates", copy: `${liveSiteData.counts.updates} updates vormen samen een lopend logboek.` },
+                    { title: "Beelden", copy: `${liveSiteData.counts.images} beelden kunnen geopend worden vanuit projecten en galerij.` },
+                    { title: "Talen", copy: "De inhoud blijft leesbaar in Nederlands en Engels." }
+                ]
+                : [
+                    { title: "Projects", copy: `${liveSiteData.counts.projects} projects are now directly available on the site.` },
+                    { title: "Updates", copy: `${liveSiteData.counts.updates} updates form an ongoing logbook.` },
+                    { title: "Images", copy: `${liveSiteData.counts.images} images can be opened from projects and gallery.` },
+                    { title: "Languages", copy: "Content remains readable in both Dutch and English." }
+                ];
+        }
+
+        function getMetaLabel(slot) {
+            if (!hasLiveContent()) return content[currentLang][slot];
+            const labels = currentLang === "nl"
+                ? {
+                    metaOne: "Projecten op de site",
+                    metaTwo: "Updates in het logboek",
+                    metaThree: "Beschikbare beelden"
+                }
+                : {
+                    metaOne: "Projects on the site",
+                    metaTwo: "Updates in the logbook",
+                    metaThree: "Available images"
+                };
+            return labels[slot];
+        }
+
+        function getCounterTarget(slot) {
+            if (!hasLiveContent()) {
+                const map = { metaOne: 12, metaTwo: 4, metaThree: 100 };
+                return map[slot];
+            }
+
+            const map = {
+                metaOne: liveSiteData.counts.projects,
+                metaTwo: liveSiteData.counts.updates,
+                metaThree: liveSiteData.counts.images
+            };
+            return map[slot];
+        }
+
+        function getProjectItems() {
+            if (!hasLiveContent() || !liveSiteData.projects.length) return content[currentLang].projects;
+
+            return liveSiteData.projects.map((project) => {
+                const title = pickLocalizedPair(project, "title", "titleEn");
+                const description = pickLocalizedPair(project, "description", "descriptionEn");
+                const postedLabel = currentLang === "nl" ? "Gepost" : "Posted";
+                const updatedLabel = currentLang === "nl" ? "Update" : "Updated";
+                const imageLabel = currentLang === "nl" ? "Beelden" : "Images";
+                const facts = [
+                    project.postedText ? `${postedLabel} ${project.postedText}` : null,
+                    `${imageLabel} ${project.photos.length}`,
+                    project.updatedText ? `${updatedLabel} ${project.updatedText}` : null
+                ].filter(Boolean);
+
+                return {
+                    label: currentLang === "nl" ? "Project" : "Project",
+                    title,
+                    preview: clipText(description, 110),
+                    description: description || clipText(title, 80),
+                    facts,
+                    image: project.image || "./assets/hero-sky.jpg",
+                    photos: project.photos.length ? project.photos : [project.image || "./assets/hero-sky.jpg"],
+                    postedText: project.postedText || "",
+                    updatedText: project.updatedText || ""
+                };
             });
         }
-        panel.addEventListener('scroll', reveal);
 
-        /* BUBBEL-LOGICA VERWIJDERD UIT JAVASCRIPT */
+        function getTimelineItems() {
+            if (!hasLiveContent()) {
+                const fallbackImages = content[currentLang].gallery.items.map((item) => item.image);
+                return content[currentLang].timeline.items.map((item, index) => ({
+                    ...item,
+                    viewerEntry: {
+                        label: currentLang === "nl" ? "Tijdlijn" : "Timeline",
+                        title: item.title,
+                        description: item.copy,
+                        facts: [item.date],
+                        image: fallbackImages[index % fallbackImages.length] || "./assets/hero-sky.jpg",
+                        photos: [fallbackImages[index % fallbackImages.length] || "./assets/hero-sky.jpg"]
+                    }
+                }));
+            }
 
-        // Functie om de intro-animatie te triggeren
-        window.addEventListener('load', () => {
-            // Voeg de klassen toe die de CSS-transities activeren
-            document.body.classList.add('loaded'); // Achtergrond gaat van zwart naar afbeelding
-            document.getElementById('mainPanel').classList.add('visible'); // Vak verschijnt
+            const rows = [
+                ...liveSiteData.projects.map((item) => ({ ...item, type: currentLang === "nl" ? "Project" : "Project" })),
+                ...liveSiteData.updates.map((item) => ({ ...item, type: currentLang === "nl" ? "Update" : "Update" }))
+            ]
+                .filter((item) => item.sortMs)
+                .sort((a, b) => b.sortMs - a.sortMs)
+                .slice(0, 4)
+                .map((item) => ({
+                    date: item.updatedText || item.postedText || "-",
+                    title: `${item.type}: ${pickLocalizedPair(item, "title", "titleEn")}`,
+                    copy: clipText(pickLocalizedPair(item, "description", "descriptionEn"), 180) || "-",
+                    viewerEntry: {
+                        label: item.type,
+                        title: pickLocalizedPair(item, "title", "titleEn"),
+                        description: pickLocalizedPair(item, "description", "descriptionEn"),
+                        facts: [
+                            item.postedText ? `${currentLang === "nl" ? "Gepost" : "Posted"} ${item.postedText}` : null,
+                            item.updatedText ? `${currentLang === "nl" ? "Update" : "Updated"} ${item.updatedText}` : null,
+                            `${item.photos.length} ${currentLang === "nl" ? "foto's" : "images"}`
+                        ].filter(Boolean),
+                        image: item.image || "./assets/hero-sky.jpg",
+                        photos: item.photos.length ? item.photos : [item.image || "./assets/hero-sky.jpg"]
+                    }
+                }));
+
+            return rows.length ? rows : content[currentLang].timeline.items;
+        }
+
+        function getGalleryPoolItems() {
+            if (!hasLiveContent() || !liveSiteData.gallery.length) return content[currentLang].gallery.items;
+
+            return liveSiteData.gallery.map((item) => ({
+                title: pickLocalizedPair(item, "title", "titleEn"),
+                description: pickLocalizedPair(item, "description", "descriptionEn"),
+                image: item.image,
+                size: item.size
+            }));
+        }
+
+        function shuffleItems(items) {
+            const copy = [...items];
+            for (let index = copy.length - 1; index > 0; index -= 1) {
+                const swapIndex = Math.floor(Math.random() * (index + 1));
+                [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+            }
+            return copy;
+        }
+
+        function getGalleryItems() {
+            return shuffleItems(getGalleryPoolItems());
+        }
+
+        function getUpdateItems() {
+            if (!hasLiveContent() || !liveSiteData.updates.length) {
+                const fallbackImages = content[currentLang].gallery.items.map((item) => item.image);
+                return content[currentLang].updates.items.map((item, index) => ({
+                    ...item,
+                    label: currentLang === "nl" ? "Update" : "Update",
+                    description: item.copy,
+                    facts: [item.date, ...item.tags],
+                    image: fallbackImages[index % fallbackImages.length] || "./assets/hero-sky.jpg",
+                    photos: [fallbackImages[index % fallbackImages.length] || "./assets/hero-sky.jpg"]
+                }));
+            }
+
+            return liveSiteData.updates.map((item) => {
+                const imageTag = currentLang === "nl" ? "beelden" : "images";
+                const liveTag = currentLang === "nl" ? "site-update" : "site update";
+                return {
+                    date: item.updatedText || item.postedText || "-",
+                    title: pickLocalizedPair(item, "title", "titleEn"),
+                    copy: clipText(pickLocalizedPair(item, "description", "descriptionEn"), 180),
+                    tags: [liveTag, `${item.photos.length} ${imageTag}`],
+                    image: item.image || "./assets/hero-sky.jpg",
+                    photos: item.photos.length ? item.photos : [item.image || "./assets/hero-sky.jpg"],
+                    description: pickLocalizedPair(item, "description", "descriptionEn"),
+                    facts: [
+                        item.postedText ? `${currentLang === "nl" ? "Gepost" : "Posted"} ${item.postedText}` : null,
+                        item.updatedText ? `${currentLang === "nl" ? "Update" : "Updated"} ${item.updatedText}` : null,
+                        `${item.photos.length} ${imageTag}`
+                    ].filter(Boolean),
+                    label: currentLang === "nl" ? "Update" : "Update"
+                };
+            });
+        }
+
+        function getGalleryShuffleKey() {
+            if (!hasLiveContent() || !liveSiteData.gallery.length) {
+                return `demo-${currentLang}`;
+            }
+            return `${currentLang}-${liveSiteData.gallery.map((item) => item.image).join("|")}`;
+        }
+
+        function getStableGalleryItems(forceRefresh = false) {
+            const nextKey = getGalleryShuffleKey();
+            if (forceRefresh || nextKey !== galleryShuffleKey || !galleryItems.length) {
+                galleryItems = shuffleItems(getGalleryPoolItems());
+                galleryShuffleKey = nextKey;
+            }
+            return galleryItems;
+        }
+
+        function normalizeLiveData(raw) {
+            const gallerySizes = ["wide", "tall", "medium", "medium", "wide", "tall"];
+            const gallery = [];
+
+            raw.projects.forEach((entry) => {
+                entry.photos.slice(0, 2).forEach((image, index) => {
+                    gallery.push({
+                        title: entry.title || entry.titleEn || "Untitled",
+                        titleEn: entry.titleEn || entry.title || "Untitled",
+                        description: entry.description || entry.updatedText || entry.postedText || "",
+                        descriptionEn: entry.descriptionEn || entry.description || entry.updatedText || entry.postedText || "",
+                        image,
+                        size: gallerySizes[(gallery.length + index) % gallerySizes.length]
+                    });
+                });
+            });
+
+            return {
+                bio: raw.bio,
+                projects: raw.projects,
+                updates: raw.updates,
+                gallery,
+                counts: {
+                    projects: raw.projects.length,
+                    updates: raw.updates.length,
+                    images: gallery.length
+                }
+            };
+        }
+
+        function refreshCounterTargets() {
+            const mapping = {
+                metaOne: document.getElementById("metaCountOne"),
+                metaTwo: document.getElementById("metaCountTwo"),
+                metaThree: document.getElementById("metaCountThree")
+            };
+
+            Object.entries(mapping).forEach(([slot, node]) => {
+                if (!node) return;
+                node.dataset.counter = String(getCounterTarget(slot));
+                node.textContent = "0";
+            });
+        }
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            const data = content[lang];
+
+            document.documentElement.lang = lang;
+            document.title = "Stanamarenko";
+            setText("brandMeta", getBrandMetaText());
+            setText("heroEyebrow", data.heroEyebrow);
+            setText("heroTitle", data.heroTitle);
+            setText("heroLead", getHeroLeadText());
+            setText("heroPrimary", data.heroPrimary);
+            setText("heroSecondary", data.heroSecondary);
+            setText("heroScroll", data.heroScroll);
+            headerInstagram.textContent = data.headerInstagram;
+            setText("metaOne", getMetaLabel("metaOne"));
+            setText("metaTwo", getMetaLabel("metaTwo"));
+            setText("metaThree", getMetaLabel("metaThree"));
+            setText("stackOneTitle", data.stackOneTitle);
+            setText("stackOneCopy", data.stackOneCopy);
+            setText("stackTwoTitle", data.stackTwoTitle);
+            setText("stackTwoCopy", data.stackTwoCopy);
+            setText("stackThreeTitle", data.stackThreeTitle);
+            setText("stackThreeCopy", data.stackThreeCopy);
+            setText("featuredKicker", data.featuredIntro.kicker);
+            setText("featuredTitle", data.featuredIntro.title);
+            setText("featuredCopy", data.featuredIntro.copy);
+            setText("featuredJump", data.featuredIntro.jump);
+            setText("observationKicker", data.observation.kicker);
+            setText("observationTitle", data.observation.title);
+            setText("observationCopy", data.observation.copy);
+            setText("timelineKicker", data.timeline.kicker);
+            setText("timelineTitle", data.timeline.title);
+            setText("timelineCopy", data.timeline.copy);
+            setText("galleryKicker", data.gallery.kicker);
+            setText("galleryTitle", data.gallery.title);
+            setText("galleryCopy", data.gallery.copy);
+            setText("galleryJump", data.gallery.jump);
+            setText("updatesKicker", data.updates.kicker);
+            setText("updatesTitle", data.updates.title);
+            setOptionalText("updatesCopy", data.updates.copy);
+            setText("contactTitle", data.contact.title);
+            setOptionalText("contactCopy", data.contact.copy);
+            setText("contactPrimary", data.contact.primary);
+            setText("contactSecondary", data.contact.secondary);
+            setText("footerLeft", data.footerLeft);
+            setText("footerRight", data.footerRight);
+            applyMaintenanceCopy();
+
+            navLinks.forEach((link) => {
+                const key = link.dataset.nav;
+                link.textContent = data.nav[key];
+            });
+
+            getSummaryData().forEach((item, index) => {
+                const title = summaryItems[index].querySelector("h3");
+                const copy = summaryItems[index].querySelector("p");
+                title.textContent = item.title;
+                copy.textContent = item.copy;
+            });
+
+            refreshCounterTargets();
+            animateCounters();
+
+            const tickerMarkup = Array.from({ length: 4 }, () => data.ticker).flat().map((item) => `<span>${item}</span>`).join("");
+            document.getElementById("tickerTrackA").innerHTML = tickerMarkup;
+            document.getElementById("tickerTrackB").innerHTML = tickerMarkup;
+            syncTickerWidth();
+
+            renderSelector();
+            renderProject(activeProject);
+            renderObservationNotes();
+            renderTimeline();
+            renderGallery(true);
+            renderUpdates();
+            refreshHeroStack();
+            syncHeroLeadLayout();
+
+            document.querySelectorAll("[data-lang]").forEach((button) => {
+                button.classList.toggle("active", button.dataset.lang === lang);
+            });
+        }
+
+        function renderSelector() {
+            const projects = getProjectItems();
+            selector.innerHTML = "";
+            projects.slice(0, visibleProjectCount).forEach((project, index) => {
+                const photoCount = project.photos?.length || 1;
+                const photoLabel = currentLang === "nl"
+                    ? `${photoCount} foto${photoCount === 1 ? "" : "'s"}`
+                    : `${photoCount} image${photoCount === 1 ? "" : "s"}`;
+                const hintText = currentLang === "nl" ? "Klik om alle afbeeldingen te openen" : "Click to open all images";
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "reveal";
+                button.innerHTML = `
+                    <div class="project-card__thumb">
+                        <img src="${project.image}" alt="${project.title}">
+                        <div class="project-card__shade"></div>
+                        <div class="project-card__count">${photoLabel}</div>
+                    </div>
+                    <div class="project-card__body">
+                        <span class="label">${project.label}</span>
+                        <h3>${project.title}</h3>
+                        <p>${project.preview}</p>
+                        <div class="project-card__meta">${project.facts.map((fact) => `<span>${fact}</span>`).join("")}</div>
+                        <div class="project-card__hint">${hintText}</div>
+                    </div>
+                `;
+                button.addEventListener("click", () => {
+                    openProjectViewer(project);
+                });
+                selector.appendChild(button);
+            });
+            const canToggle = projects.length > baseProjectCount;
+            const expanded = visibleProjectCount >= projects.length;
+            projectsMoreButton.style.display = canToggle ? "" : "none";
+            projectsMoreButton.textContent = getToggleLabel("projects", expanded);
+            wireReveal();
+        }
+
+        function renderProject(index) {
+            if (!stageTag || !stageTitle || !stageDescription || !stageFacts || !stageImages[0] || !stageImages[1]) return;
+            const projects = getProjectItems();
+            const safeIndex = Math.min(index, projects.length - 1);
+            activeProject = Math.max(0, safeIndex);
+            const project = projects[activeProject];
+            stageTag.textContent = `${content[currentLang].featuredIntro.stageTag} / ${project.label}`;
+            stageTitle.textContent = project.title;
+            stageDescription.textContent = project.description;
+            stageFacts.innerHTML = project.facts.map((fact) => `<span>${fact}</span>`).join("");
+
+            const next = (stageFront + 1) % stageImages.length;
+            stageImages[next].src = project.image;
+            stageImages[next].alt = project.title;
+            stageImages[next].classList.add("active");
+            stageImages[stageFront].classList.remove("active");
+            stageFront = next;
+        }
+
+        function renderObservationNotes() {
+            if (!observationNotes) return;
+            const notes = content[currentLang].observation.notes;
+            observationNotes.innerHTML = "";
+            notes.forEach((note) => {
+                const article = document.createElement("article");
+                article.className = "note";
+                article.innerHTML = `<strong>${note.title}</strong><p>${note.copy}</p>`;
+                observationNotes.appendChild(article);
+            });
+        }
+
+        function renderTimeline() {
+            const items = getTimelineItems();
+            timelineList.innerHTML = "";
+            items.forEach((item) => {
+                const row = document.createElement(item.viewerEntry ? "button" : "article");
+                row.className = `timeline-item reveal${item.viewerEntry ? " timeline-item--button" : ""}`;
+                if (item.viewerEntry) {
+                    row.type = "button";
+                    row.addEventListener("click", () => openProjectViewer(item.viewerEntry));
+                }
+                row.innerHTML = `
+                    <div class="timeline-date">${item.date}</div>
+                    <div class="timeline-card">
+                        <h3>${item.title}</h3>
+                        <p>${item.copy}</p>
+                    </div>
+                `;
+                timelineList.appendChild(row);
+            });
+            wireReveal();
+        }
+
+        function renderGallery(forceRefresh = false) {
+            const items = getStableGalleryItems(forceRefresh);
+            galleryGrid.innerHTML = "";
+            items.slice(0, visibleGalleryCount).forEach((item, index) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "gallery-card reveal";
+                button.dataset.size = item.size;
+                button.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="gallery-card__caption">
+                        <strong>${item.title}</strong>
+                        <span>${item.description}</span>
+                    </div>
+                `;
+                button.addEventListener("click", () => openLightbox(index));
+                galleryGrid.appendChild(button);
+            });
+            const canToggle = items.length > baseGalleryCount;
+            const expanded = visibleGalleryCount >= items.length;
+            galleryMoreButton.style.display = canToggle ? "" : "none";
+            galleryMoreButton.textContent = getToggleLabel("gallery", expanded);
+            wireReveal();
+        }
+
+        function renderUpdates() {
+            const items = getUpdateItems();
+            updatesGrid.innerHTML = "";
+            items.slice(0, visibleUpdateCount).forEach((item) => {
+                const article = document.createElement("button");
+                article.className = "update-card reveal";
+                article.type = "button";
+                article.style.textAlign = "left";
+                article.innerHTML = `
+                    <div class="update-date">${item.date}</div>
+                    <h3>${item.title}</h3>
+                    <p>${item.copy}</p>
+                    <div class="update-tags">${item.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
+                `;
+                article.addEventListener("click", () => openProjectViewer(item));
+                updatesGrid.appendChild(article);
+            });
+            const canToggle = items.length > baseUpdateCount;
+            const expanded = visibleUpdateCount >= items.length;
+            updatesMoreButton.style.display = canToggle ? "" : "none";
+            updatesMoreButton.textContent = getToggleLabel("updates", expanded);
+            wireReveal();
+        }
+
+        function refreshHeroStack() {
+            const cards = [
+                {
+                    image: document.querySelector(".hero-card--project img"),
+                    title: document.getElementById("stackOneTitle"),
+                    copy: document.getElementById("stackOneCopy")
+                },
+                {
+                    image: document.querySelector(".hero-card--main img"),
+                    title: document.getElementById("stackTwoTitle"),
+                    copy: document.getElementById("stackTwoCopy")
+                },
+                {
+                    image: document.querySelector(".hero-card--moon img"),
+                    title: document.getElementById("stackThreeTitle"),
+                    copy: document.getElementById("stackThreeCopy")
+                }
+            ];
+
+            if (!cards.every((card) => card.image && card.title && card.copy)) return;
+
+            const picks = shuffleItems(getGalleryPoolItems()).slice(0, 3);
+            picks.forEach((item, index) => {
+                if (!cards[index]) return;
+                cards[index].image.src = item.image;
+                cards[index].image.alt = item.title;
+                cards[index].title.textContent = item.title;
+                cards[index].copy.textContent = clipText(item.description, 56);
+            });
+        }
+
+        function restartProjectTimer() {
+            clearInterval(projectTimer);
+        }
+
+        function openLightbox(index) {
+            lightboxIndex = index;
+            updateLightbox();
+            lightbox.classList.add("open");
+            lightbox.setAttribute("aria-hidden", "false");
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove("open");
+            lightbox.setAttribute("aria-hidden", "true");
+        }
+
+        function updateLightbox() {
+            const item = galleryItems[lightboxIndex];
+            if (!item) return;
+            lightboxImage.src = item.image;
+            lightboxImage.alt = item.title;
+            lightboxTitle.textContent = item.title;
+            lightboxDescription.textContent = item.description;
+        }
+
+        function moveLightbox(direction) {
+            lightboxIndex = (lightboxIndex + direction + galleryItems.length) % galleryItems.length;
+            updateLightbox();
+        }
+
+        function bindSwipeNavigation(element, onPrev, onNext, isEnabled) {
+            let startX = 0;
+            let startY = 0;
+
+            element.addEventListener("touchstart", (event) => {
+                if (!isEnabled() || event.touches.length !== 1) return;
+                startX = event.touches[0].clientX;
+                startY = event.touches[0].clientY;
+            }, { passive: true });
+
+            element.addEventListener("touchend", (event) => {
+                if (!isEnabled() || event.changedTouches.length !== 1) return;
+                const deltaX = event.changedTouches[0].clientX - startX;
+                const deltaY = event.changedTouches[0].clientY - startY;
+                if (Math.abs(deltaX) < 44 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+                if (deltaX < 0) onNext();
+                else onPrev();
+            }, { passive: true });
+        }
+
+        function syncTickerWidth() {
+            const tickerTrackA = document.getElementById("tickerTrackA");
+            const tickerMarquee = document.getElementById("tickerMarquee");
+            if (!tickerTrackA || !tickerMarquee) return;
+            tickerMarquee.style.setProperty("--ticker-distance", `${tickerTrackA.offsetWidth}px`);
+        }
+
+        function getProjectViewerEntry(entryOrIndex) {
+            if (typeof entryOrIndex === "number") {
+                return getProjectItems()[entryOrIndex] || null;
+            }
+            return entryOrIndex || null;
+        }
+
+        function getViewerPhotos(entry) {
+            if (!entry) return ["./assets/hero-sky.jpg"];
+            return entry.photos?.length ? entry.photos : [entry.image || "./assets/hero-sky.jpg"];
+        }
+
+        function openProjectViewer(entryOrIndex) {
+            projectViewerEntry = getProjectViewerEntry(entryOrIndex);
+            if (!projectViewerEntry) return;
+            projectViewerImageIndex = 0;
+            updateProjectViewer();
+            projectViewer.classList.add("open");
+            projectViewer.setAttribute("aria-hidden", "false");
+        }
+
+        function closeProjectViewer() {
+            projectViewer.classList.remove("open");
+            projectViewer.setAttribute("aria-hidden", "true");
+        }
+
+        function moveProjectViewer(direction) {
+            if (!projectViewerEntry) return;
+            const photos = getViewerPhotos(projectViewerEntry);
+            projectViewerImageIndex = (projectViewerImageIndex + direction + photos.length) % photos.length;
+            updateProjectViewer();
+        }
+
+        function updateProjectViewer() {
+            const project = projectViewerEntry;
+            if (!project) return;
+
+            const photos = getViewerPhotos(project);
+            const metaItems = Array.isArray(project.facts) ? [...project.facts] : [];
+
+            projectViewerEyebrow.textContent = project.label;
+            projectViewerTitle.textContent = project.title;
+            projectViewerDescription.textContent = project.description || "";
+            projectViewerImage.src = photos[projectViewerImageIndex];
+            projectViewerImage.alt = `${project.title} ${projectViewerImageIndex + 1}`;
+            projectViewerMeta.innerHTML = [
+                ...metaItems,
+                `${projectViewerImageIndex + 1} / ${photos.length}`
+            ].map((item) => `<span>${item}</span>`).join("");
+
+            projectViewerThumbs.innerHTML = "";
+            photos.forEach((photo, index) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = `project-viewer__thumb${index === projectViewerImageIndex ? " active" : ""}`;
+                button.innerHTML = `<img src="${photo}" alt="${project.title} ${index + 1}">`;
+                button.addEventListener("click", () => {
+                    projectViewerImageIndex = index;
+                    updateProjectViewer();
+                });
+                projectViewerThumbs.appendChild(button);
+            });
+        }
+
+        function updateCompare(value) {
+            if (!compareAfter || !compareLine || !compareHandle) return;
+            compareAfter.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+            compareLine.style.left = `${value}%`;
+            compareHandle.style.left = `${value}%`;
+        }
+
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const ratio = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progress.style.width = `${ratio}%`;
+        }
+
+        function highlightSection() {
+            const sections = document.querySelectorAll("[data-section]");
+            let current = "hero";
+            sections.forEach((section) => {
+                if (window.getComputedStyle(section).display === "none") return;
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.35) current = section.dataset.section;
+            });
+            navLinks.forEach((link) => {
+                const key = link.dataset.nav;
+                link.classList.toggle("active", key === current);
+            });
+        }
+
+        function wireReveal() {
+            const targets = document.querySelectorAll(".reveal");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.18 });
+
+            targets.forEach((target) => {
+                if (!target.classList.contains("is-visible")) observer.observe(target);
+            });
+        }
+
+        function animateCounters() {
+            const counters = document.querySelectorAll("[data-counter]");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    const node = entry.target;
+                    const target = Number(node.dataset.counter || "0");
+                    const start = performance.now();
+                    const duration = 1200;
+
+                    function tick(now) {
+                        const progressValue = Math.min((now - start) / duration, 1);
+                        node.textContent = Math.round(target * progressValue);
+                        if (progressValue < 1) requestAnimationFrame(tick);
+                    }
+
+                    requestAnimationFrame(tick);
+                    observer.unobserve(node);
+                });
+            }, { threshold: 0.6 });
+
+            counters.forEach((counter) => observer.observe(counter));
+        }
+
+        function initStarfield() {
+            const canvas = document.querySelector(".starfield");
+            const ctx = canvas.getContext("2d");
+            const dpr = window.devicePixelRatio || 1;
+            const particles = [];
+            const particleCount = 80;
+
+            function resize() {
+                canvas.width = window.innerWidth * dpr;
+                canvas.height = window.innerHeight * dpr;
+                canvas.style.width = `${window.innerWidth}px`;
+                canvas.style.height = `${window.innerHeight}px`;
+                ctx.scale(dpr, dpr);
+            }
+
+            function createParticle() {
+                return {
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: Math.random() * 1.8 + 0.4,
+                    vx: (Math.random() - 0.5) * 0.15,
+                    vy: Math.random() * 0.18 + 0.02,
+                    a: Math.random() * 0.5 + 0.1
+                };
+            }
+
+            function resetParticles() {
+                particles.length = 0;
+                for (let index = 0; index < particleCount; index += 1) particles.push(createParticle());
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                particles.forEach((particle) => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    if (particle.y > window.innerHeight + 20) {
+                        particle.y = -20;
+                        particle.x = Math.random() * window.innerWidth;
+                    }
+                    if (particle.x < -20) particle.x = window.innerWidth + 20;
+                    if (particle.x > window.innerWidth + 20) particle.x = -20;
+
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(222, 238, 255, ${particle.a})`;
+                    ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(draw);
+            }
+
+            resize();
+            resetParticles();
+            draw();
+
+            window.addEventListener("resize", () => {
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                resize();
+                resetParticles();
+            });
+        }
+
+        function initMenu() {
+            menuToggle.addEventListener("click", () => {
+                const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+                menuToggle.setAttribute("aria-expanded", String(!expanded));
+                mobileNav.classList.toggle("open");
+                document.body.classList.toggle("menu-open");
+            });
+
+            mobileNav.querySelectorAll("a").forEach((link) => {
+                link.addEventListener("click", () => {
+                    mobileNav.classList.remove("open");
+                    menuToggle.setAttribute("aria-expanded", "false");
+                    document.body.classList.remove("menu-open");
+                });
+            });
+        }
+
+        document.querySelectorAll("[data-lang]").forEach((button) => {
+            button.addEventListener("click", () => applyLanguage(button.dataset.lang));
         });
 
-        window.goPage = async function(page) {
-            currentPage = page;
-            const t = translations[currentLang];
-            document.getElementById('sidebar').classList.add('closed');
-            wrapper.className = 'content-out';
-            
-            setTimeout(async () => {
-                const list = document.getElementById('projectList');
-                list.innerHTML = ""; panel.scrollTop = 0;
-                panel.classList.toggle('expanded', page === 'project' || page === 'updates');
+        projectsMoreButton.addEventListener("click", () => {
+            const total = getProjectItems().length;
+            visibleProjectCount = visibleProjectCount >= total ? baseProjectCount : total;
+            renderSelector();
+        });
 
-                if (page === 'home') {
-                    document.getElementById('title').innerText = t.homeTitle;
-                    document.getElementById('desc').innerText = t.homeDesc;
-                } else if (page === 'bio') {
-                    document.getElementById('title').innerText = t.bioTitle;
-                    const snap = await getDoc(doc(db, "siteData", "biografie"));
-                    if(snap.exists()) document.getElementById('desc').innerText = currentLang === 'nl' ? snap.data().tekst : (snap.data().tekstEn || snap.data().tekst);
-                } else if (page === 'social') {
-                    document.getElementById('title').innerText = t.socialTitle;
-                    document.getElementById('desc').innerText = t.socialDesc;
-                    list.innerHTML = `<a href="https://www.instagram.com/stanamarenko" target="_blank" class="nav-btn" style="width:240px; text-decoration:none; display:block; margin: 20px auto;">Instagram</a>`;
-                } else if (page === 'project' || page === 'updates') {
-                    const colName = page === 'project' ? 'projecten' : 'updates';
-                    document.getElementById('title').innerText = page === 'project' ? t.projectsTitle : t.updatesTitle;
-                    document.getElementById('desc').innerText = t.subText;
-                    const q = query(collection(db, colName), orderBy("datum", "desc"));
-                    const snap = await getDocs(q);
-                    snap.forEach(d => {
-                        const data = d.data();
-                        const fotos = data.fotos || [];
-                        const box = document.createElement('div');
-                        box.className = 'project-box';
-                        const displayTitel = currentLang === 'nl' ? data.titel : (data.titelEn || data.titel);
-                        const displayDesc = currentLang === 'nl' ? data.beschrijving : (data.beschrijvingEn || data.beschrijving);
-                        let dateInfo = `<div style="margin-bottom:10px; font-size:0.75rem; font-weight:700;"><span style="color:#2e7d32;">${t.posted}: ${data.datumTekst}</span>${data.reUpdateTekst ? `<span style="color:#d32f2f; margin-left:12px;">• ${t.update}: ${data.reUpdateTekst}</span>` : ''}</div>`;
-                        let collage = '<div class="image-collage">';
-                        fotos.slice(0, 4).forEach((url, i) => {
-                            const isLast = (i === 3 && fotos.length > 4);
-                            collage += `<div class="collage-item" onclick='openViewer(${JSON.stringify(fotos)}, ${i})'><img src="${url}">${isLast ? `<div class="more-overlay">+${fotos.length - 3}</div>` : ''}</div>`;
-                        });
-                        collage += '</div>';
-                        box.innerHTML = `${dateInfo}<h3>${displayTitel}</h3><p>${displayDesc}</p>${fotos.length > 0 ? collage : ''}`;
-                        list.appendChild(box);
-                    });
-                    setTimeout(reveal, 50);
-                }
-                wrapper.className = 'content-in';
-            }, 450);
-        }
+        galleryMoreButton.addEventListener("click", () => {
+            const total = getStableGalleryItems().length;
+            visibleGalleryCount = visibleGalleryCount >= total ? baseGalleryCount : total;
+            renderGallery();
+        });
+
+        updatesMoreButton.addEventListener("click", () => {
+            const total = getUpdateItems().length;
+            visibleUpdateCount = visibleUpdateCount >= total ? baseUpdateCount : total;
+            renderUpdates();
+        });
+
+        heroLeadToggle.addEventListener("click", () => {
+            heroLeadExpanded = !heroLeadExpanded;
+            syncHeroLeadLayout();
+        });
+
+        window.addEventListener("stan-live-data", (event) => {
+            liveSiteData = normalizeLiveData(event.detail);
+            liveStatus = "live";
+            activeProject = 0;
+            applyLanguage(currentLang);
+        });
+
+        window.addEventListener("stan-live-data-error", () => {
+            liveStatus = "demo";
+        });
+
+        window.addEventListener("stan-maintenance", (event) => {
+            setMaintenanceState(Boolean(event.detail));
+        });
+
+        lightboxClose.addEventListener("click", closeLightbox);
+        lightboxPrev.addEventListener("click", () => moveLightbox(-1));
+        lightboxNext.addEventListener("click", () => moveLightbox(1));
+        lightbox.addEventListener("click", (event) => {
+            if (event.target === lightbox) closeLightbox();
+        });
+        projectViewerClose.addEventListener("click", closeProjectViewer);
+        projectViewerPrev.addEventListener("click", () => moveProjectViewer(-1));
+        projectViewerNext.addEventListener("click", () => moveProjectViewer(1));
+        projectViewer.addEventListener("click", (event) => {
+            if (event.target === projectViewer) closeProjectViewer();
+        });
+        bindSwipeNavigation(lightbox, () => moveLightbox(-1), () => moveLightbox(1), () => lightbox.classList.contains("open") && galleryItems.length > 1);
+        bindSwipeNavigation(projectViewer, () => moveProjectViewer(-1), () => moveProjectViewer(1), () => projectViewer.classList.contains("open") && getViewerPhotos(projectViewerEntry).length > 1);
+        document.addEventListener("keydown", (event) => {
+            if (projectViewer.classList.contains("open")) {
+                if (event.key === "Escape") closeProjectViewer();
+                if (event.key === "ArrowLeft") moveProjectViewer(-1);
+                if (event.key === "ArrowRight") moveProjectViewer(1);
+                return;
+            }
+            if (!lightbox.classList.contains("open")) return;
+            if (event.key === "Escape") closeLightbox();
+            if (event.key === "ArrowLeft") moveLightbox(-1);
+            if (event.key === "ArrowRight") moveLightbox(1);
+        });
+
+        compareRange.addEventListener("input", (event) => updateCompare(event.target.value));
+
+        window.addEventListener("scroll", () => {
+            updateProgress();
+            highlightSection();
+        }, { passive: true });
+
+        window.addEventListener("resize", () => {
+            syncHeroLeadLayout();
+            syncTickerWidth();
+        }, { passive: true });
+
+        applyLanguage(currentLang);
+        wireReveal();
+        animateCounters();
+        initStarfield();
+        initMenu();
+        updateCompare(compareRange.value);
+        updateProgress();
+        highlightSection();
+        restartProjectTimer();
     </script>
 </body>
 </html>
